@@ -1,0 +1,45 @@
+{
+  "name": "chronos",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "analyze": "tsc && vite build && serve -s stats.html",
+    "dev": "vite",
+    "build:dev": "tsc && vite build",
+    "build:prod": "tsc && vite build --mode prod",
+    "build:staging": "tsc && vite build --mode staging",
+    "build:studio": "tsc && vite build --mode studio",
+    "build:uat": "tsc && vite build --mode uat",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.7.18",
+    "@headlessui/tailwindcss": "^0.2.0",
+    "@tremor/react": "^3.13.3",
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.0",
+    "sort-by": "^0.0.2",
+    "url": "^0.11.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8",
+    "vite-plugin-compression2": "^0.12.0"
+  }
+}
