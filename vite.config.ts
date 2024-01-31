@@ -27,6 +27,7 @@ export default defineConfig({
 	resolve: {
 		alias: [
 			{ find: '@components', replacement: fileURLToPath(new URL('./src/components', import.meta.url)) },
+			{ find: '@utils', replacement: fileURLToPath(new URL('./src/utils', import.meta.url)) },
 		]
 	},
 	server: {

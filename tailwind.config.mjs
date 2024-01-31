@@ -13,6 +13,25 @@ export default {
 		transparent: 'transparent',
 		current: 'currentColor',
 		extend: {
+			animation: {
+				progress: 'progress 2s ease-in-out infinite'
+			},
+			keyframes: {
+				progress: {
+					'0%': {
+						width: '0%',
+						left: 0
+					},
+					'50%': {
+						width: '100%',
+						right: 0
+					},
+					'100%': {
+						width: '0%',
+						right: 0
+					}
+				}
+			},
 			colors: {
 				// colors based on #049DC8 as main color using https://uicolors.app/create
 				// light mode
@@ -69,7 +88,7 @@ export default {
 					},
 					content: {
 						subtle: colors.gray[600],
-						DEFAULT: colors.gray[600],
+						DEFAULT: colors.gray[300],
 						emphasis: colors.gray[200],
 						strong: colors.gray[50],
 						inverted: colors.black,
@@ -102,32 +121,32 @@ export default {
 	safelist: [
 		{
 			pattern:
-        /^(bg-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+				/^(bg-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
 			variants: ['hover', 'ui-selected'],
 		},
 		{
 			pattern:
-        /^(text-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+				/^(text-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
 			variants: ['hover', 'ui-selected'],
 		},
 		{
 			pattern:
-        /^(border-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+				/^(border-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
 			variants: ['hover', 'ui-selected'],
 		},
 		{
 			pattern:
-        /^(ring-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+				/^(ring-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
 		},
 		{
 			pattern:
-        /^(stroke-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+				/^(stroke-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
 		},
 		{
 			pattern:
-        /^(fill-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+				/^(fill-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
 		},
 	],
-	darkMode: 'class',
+	// darkMode: 'class',
 	plugins: [headlessUI, tailwindForms],
 }

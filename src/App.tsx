@@ -1,10 +1,7 @@
-
-function App() {
-  console.log(import.meta.env)
-  return (
-    <>
-    </>
-  )
+const App =  () => {
+	return (
+		<></>
+	)
 }
 
 export default App
