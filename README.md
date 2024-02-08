@@ -1,3 +1,44 @@
+# New Chronos Back Office
+
+## Node Version 20.10.0
+
+## Scripts
+
+### First-Time Run
+```
+npm install
+npm run compile
+npm start
+```
+
+###  Visualize Rollup Bundled File Size
+```
+npm run analyze
+```
+(must install serve with ```npm i -g serve```)
+
+
+## Packages
+
+### Tremor/React (for Charts and UI)
+- [Docs](https://www.tremor.so/)
+- [Github](https://github.com/tremorlabs/tremor)
+
+### LingUI/React (for Translations)
+- [Docs](https://lingui.dev/)
+- [Github](https://github.com/lingui/js-lingui)
+
+
+### React JVectormap
+- [Github](https://github.com/kadoshms/react-jvectormap)
+
+## Useful VSCode Extensions
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Tailwindcss-IntelliSence](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+- [Gettext](https://marketplace.visualstudio.com/items?itemName=mrorz.language-gettext) for PO files
+
+
+(Additional References)
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

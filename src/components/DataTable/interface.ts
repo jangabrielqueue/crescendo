@@ -3,6 +3,8 @@ export interface RenderCellParams<T> {
 	row: T
 	id?: string
 	value?: T[keyof T]
+	data?: T[]
+	index: number
 }
 
 export const COLUMN = {
@@ -15,6 +17,8 @@ interface BasicTableColumns<T> {
 	width?: string | number | undefined
 	sortable?: boolean
 	renderCell?: (args: RenderCellParams<T>) => React.ReactNode
+	headerClassName?: string
+	cellClassName?: string
 }
 
 export type TableColumns<T> = BasicTableColumns<T> | ObjectValues<typeof COLUMN>
@@ -28,4 +32,5 @@ export interface DataTableProps<T> {
 		expandOnRowClick?: boolean
 		expandIcon?: JSX.Element
 	}
+	tableClassName?: string
 }

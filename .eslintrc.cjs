@@ -16,12 +16,17 @@ module.exports = {
 			'warn',
 			{ allowConstantExport: true },
 		],
-		indent: [2, 'tab'],
-		'no-tabs': 0,
+		// indent: [2, 'tab'],
+		// 'no-tabs': 0,
 		quotes: ['error', 'single'],
 		'space-infix-ops': ['error', { 'int32Hint': false }],
 		'block-spacing': ['error', 'always'],
 		'key-spacing': ['error', { 'beforeColon': false }],
 		semi: ['error', 'never']
 	},
+	settings: {
+		react: {
+			version: 'detect'
+		}
+	}
 }
