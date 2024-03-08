@@ -20,7 +20,7 @@ const DomainSelect = () => {
   }
   return (
     <InputSelect
-      value={domainkey ?? 'gpi'}
+      value={domainkey ?? 'crescendo'}
       options={domainOption}
       onChange={handleChange}
     />

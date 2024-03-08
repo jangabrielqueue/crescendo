@@ -1,42 +1,16 @@
 import DataTable from '@components/DataTable'
 import { TableColumns } from '@components/DataTable/interface'
 import useSnackbar from '@hooks/useSnackbar'
-import { Button, Card, Dialog, DialogPanel, Switch } from '@tremor/react'
-import { useState } from 'react'
-import GameConfigure from './GameConfigure'
+import { Button, Card, Switch } from '@tremor/react'
+import { useNavigate } from 'react-router-dom'
+import useGameListApi, { GameListModel } from './api'
+import useOnMountEffect from '@hooks/useOnMountEffect'
 
-export interface GameListModel {
-  gameName: string
-  lineBet: number
-  rtp: number
-  isEnabled: boolean
-}
-
-const data: GameListModel[] = [
-  {
-    gameName: 'Game1',
-    lineBet: 14,
-    rtp: 0.9,
-    isEnabled: true
-  },
-  {
-    gameName: 'Game2',
-    lineBet: 14,
-    rtp: 0.9,
-    isEnabled: true
-  },
-  {
-    gameName: 'Game3',
-    lineBet: 14,
-    rtp: 0.9,
-    isEnabled: false
-  }
-]
 const GameList = () => {
   const { showSnackbar } = useSnackbar()
-  const [currentRow, setCurrentRow] = useState<GameListModel>()
-
-  const handleConfigure = (row: GameListModel) => { setCurrentRow(row) }
+  const navigate = useNavigate()
+  const { data, mutate, isLoading } = useGameListApi()
+  const handleConfigure = (id: string) => navigate(`/gamelist/configure/${id}`)
   const handleEnableDisable = (row: GameListModel) => {
     showSnackbar({
       message: `${row.gameName} is ${row.isEnabled ? 'Disabled' : 'Enabled'}`,
@@ -44,16 +18,9 @@ const GameList = () => {
     })
   }
 
-  const handleCancelConfigure = () => {
-    setCurrentRow(undefined)
-  }
-  const handleSubmitConfigure = (row: GameListModel) => {
-    showSnackbar({
-      message: `Configure ${row.gameName} Successfully!`,
-      color: 'green'
-    })
-    handleCancelConfigure()
-  }
+  useOnMountEffect(() => {
+    mutate()
+  })
   const columns: Array<TableColumns<GameListModel>> = [
     {
       headerName: 'Game Name',
@@ -77,7 +44,7 @@ const GameList = () => {
       field: 'action',
       renderCell: ({ row }) => {
         return (
-          <Button onClick={() => handleConfigure(row)}>Configure</Button>
+          <Button onClick={() => handleConfigure(row.gameName)}>Configure</Button>
         )
       }
     }
@@ -86,15 +53,11 @@ const GameList = () => {
     <>
       <Card>
         <DataTable
-          data={data}
+          data={data ?? []}
+          loading={isLoading}
           columns={columns}
         />
       </Card>
-      <Dialog open={currentRow != null} onClose={() => setCurrentRow(undefined)} static={true}>
-        <DialogPanel>
-          <GameConfigure row={currentRow} onSubmit={handleSubmitConfigure} onCancel={handleCancelConfigure} />
-        </DialogPanel>
-      </Dialog>
     </>
   )
 }

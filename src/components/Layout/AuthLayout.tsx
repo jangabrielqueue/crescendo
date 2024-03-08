@@ -2,10 +2,10 @@ import { useAuth } from '@hooks/useAuth'
 import Layout from './Layout'
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
-	const { CasLogout, authToken, decodedAuth } = useAuth()
+	const { CasLogin, authToken, decodedAuth } = useAuth()
 
 	if (!authToken || !decodedAuth?.isAuthenticated) {
-		CasLogout()
+		CasLogin()
 	}
 	return <Layout>{children}</Layout>
 }

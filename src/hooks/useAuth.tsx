@@ -68,10 +68,14 @@ export const useAuth = () => {
   const handleSetAuthToken = (data: string | null) => {
     setAuthToken(data)
   }
-  const handleCasLogout = () => {
+
+  const handleCasLogin = () => {
+    window.location.href = `${config.casURL}login?next=${window.location.protocol}//${window.location.host + config.relativeRoot}auth&client=${config.casClientId}&op=${config.casOperator}`
+  }
+  const handleCasLogout = async () => {
     window.localStorage.removeItem(config.authKey)
     window.location.href = `${config.casURL}logout?client=${config.casClientId}&op=${config.casOperator}`
   }
 
-  return { authToken, CasLogout: handleCasLogout, setAuthToken: handleSetAuthToken, decodedAuth }
+  return { authToken, CasLogout: handleCasLogout, setAuthToken: handleSetAuthToken, decodedAuth, CasLogin: handleCasLogin }
 }

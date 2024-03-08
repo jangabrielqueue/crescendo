@@ -16,6 +16,7 @@ import WelcomePage from './pages'
 import { useMiddleware } from '@utils/middleware'
 import { SWRConfig } from 'swr'
 import GameList from '@pages/gamelist'
+import GameConfigure from '@pages/gamelist/configure'
 
 
 const router = createBrowserRouter([
@@ -28,8 +29,12 @@ const router = createBrowserRouter([
 		element: <Authentication />
 	},
 	{
-		path: 'gamelist',
+		path: '/gamelist',
 		element: <AuthLayout><GameList /></AuthLayout>
+	},
+	{
+		path: '/gamelist/configure/:id',
+		element: <AuthLayout><GameConfigure /></AuthLayout>
 	},
 	// {
 	// 	path: '/dashboard',

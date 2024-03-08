@@ -47,12 +47,12 @@ export const createParams = (query: object) => (
 	}, '?')
 )
 
-export async function fetchAuthenticated<T>(url: string, requestConfig: RequestInit, message?: string): Promise<BaseResponse<T>> {
+export async function fetchAuthenticated<T>(url: string, requestConfig: RequestInit, message?: string): Promise<T | undefined> {
 	const authKey = window.localStorage.getItem(config.authKey)
 	const domainKey = window.localStorage.getItem('domainkey')
 	const key: Domain | null = domainKey ? JSON.parse(domainKey) : null
 	const domain = key === 'gpi' ? config.gpiBackOfficeApi : config.cresBackOfficeApi
-	const newUrl = `${domain}api${url}`
+	const newUrl = `${domain}${url}`
 
 	const authConfig: RequestInit = {
 		...requestConfig,
@@ -63,25 +63,25 @@ export async function fetchAuthenticated<T>(url: string, requestConfig: RequestI
 	}
 
 	const res = await fetch(newUrl, authConfig)
-	const data = await validateFetch<T>(res)
+	return await validateFetch<T>(res, message)
 
-	return throwOnError(data, message)
+	// return throwOnError(data, message)
 }
 
-export async function validateFetch<T>(response: Response): Promise<BaseResponse<T>> {
+export async function validateFetch<T>(response: Response, message?: string): Promise<T | undefined> {
 	switch (response.status) {
 		case 200:
 		case 400:
 		case 500: {
 			try {
-				return await response.json() as BaseResponse<T>
+				return await response.json() as T
 			} catch (e) {
-				return { isError: true, error: 'Network Error', value: undefined }
+				throw new Error(message)
 			}
 		}
 		case 401:
 		case 403: {
-			window.location.href = `${config.casURL}logout?client=${config.casClientId}&op=${config.casOperator}`
+			window.location.href = `${config.casURL}login?next=${window.location.protocol}//${window.location.host + config.relativeRoot}auth&client=${config.casClientId}&op=${config.casOperator}`
 		}
 	}
 }

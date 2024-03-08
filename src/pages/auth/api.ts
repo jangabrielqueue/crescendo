@@ -8,8 +8,8 @@ import { useContext } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 async function getAuthentication(ticket: string, domainKey: Domain | null | undefined): Promise<BaseResponse<string>> {
-	const domain = domainKey === 'crescendo' ? config.cresBackOfficeApi : config.gpiBackOfficeApi
-	const url = `${domain}api/authentication/?ticket=${ticket}`
+	const domain = domainKey === 'gpi' ? config.gpiBackOfficeApi : config.cresBackOfficeApi
+	const url = `${domain}cas/callback?ticket=${ticket}`
 
 	const requestOptions: RequestInit = {
 		method: 'GET'
