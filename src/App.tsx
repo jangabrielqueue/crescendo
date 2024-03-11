@@ -17,6 +17,11 @@ import { useMiddleware } from '@utils/middleware'
 import { SWRConfig } from 'swr'
 import GameList from '@pages/gamelist'
 import GameConfigure from '@pages/gamelist/configure'
+import Dashboard from '@pages/dashboard'
+import MemberList from '@pages/memberlist'
+import GameHistory from '@pages/gamehistory'
+import WinLose from '@pages/winlose'
+import Test from '@pages/test'
 
 
 const router = createBrowserRouter([
@@ -36,34 +41,34 @@ const router = createBrowserRouter([
 		path: '/gamelist/configure/:id',
 		element: <AuthLayout><GameConfigure /></AuthLayout>
 	},
-	// {
-	// 	path: '/dashboard',
-	// 	element: <AuthLayout><Dashboard /></AuthLayout>
-	// },
-	// {
-	// 	path: '/memberlist',
-	// 	element: <AuthLayout><MemberList /></AuthLayout>
-	// },
-	// {
-	// 	path: '/gamehistory',
-	// 	element: <AuthLayout><GameHistory /></AuthLayout>
-	// },
-	// {
-	// 	path: '/winlose',
-	// 	element: <AuthLayout><WinLose /></AuthLayout>
-	// },
-	// {
-	// 	path: '/tournament',
-	// 	element: <AuthLayout><Test /></AuthLayout>
-	// },
-	// {
-	// 	path: '/jackpot',
-	// 	element: <AuthLayout><Test /></AuthLayout>
-	// },
-	// {
-	// 	path: '/gameservices',
-	// 	element: <AuthLayout><Test /></AuthLayout>
-	// },
+	{
+		path: '/dashboard',
+		element: <AuthLayout><Dashboard /></AuthLayout>
+	},
+	{
+		path: '/memberlist',
+		element: <AuthLayout><MemberList /></AuthLayout>
+	},
+	{
+		path: '/gamehistory',
+		element: <AuthLayout><GameHistory /></AuthLayout>
+	},
+	{
+		path: '/winlose',
+		element: <AuthLayout><WinLose /></AuthLayout>
+	},
+	{
+		path: '/tournament',
+		element: <AuthLayout><Test /></AuthLayout>
+	},
+	{
+		path: '/jackpot',
+		element: <AuthLayout><Test /></AuthLayout>
+	},
+	{
+		path: '/gameservices',
+		element: <AuthLayout><Test /></AuthLayout>
+	},
 	{
 		path: '*',
 		element: <Navigate to='/gamelist' />

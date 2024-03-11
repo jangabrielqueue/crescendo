@@ -1,10 +1,14 @@
 import useSnackbar from '@hooks/useSnackbar'
 import config from './env'
-import { BaseResponse } from './interface'
 import { Middleware } from 'swr'
 import { useCallback } from 'react'
 import { checkObjectKeys } from '.'
 import { Domain } from '@context/DomainContext'
+
+type BaseResponse<T> = {
+	value?: T
+	error?: string
+} | T | void
 
 interface FetcherParams extends FetcherMutateParams {
 	params: object
@@ -23,18 +27,11 @@ export const mutateGetFetcherWithParams = <ResponseValue>(
 		method: 'GET'
 	}, errorMessage)
 }
+
 export const fetcherGetApiWithParams = <ResponseValue>({ url, params, errorMessage }: FetcherParams) => {
 	return fetchAuthenticated<ResponseValue>(`${url}${createParams(params)}`, {
 		method: 'GET'
 	}, errorMessage)
-}
-
-export const throwOnError = <T,>(response: BaseResponse<T>, message?: string) => {
-	if (typeof response === 'object' && response.isError) {
-		throw new Error(message || response.error)
-	} else {
-		return response
-	}
 }
 
 export const createParams = (query: object) => (
@@ -47,7 +44,7 @@ export const createParams = (query: object) => (
 	}, '?')
 )
 
-export async function fetchAuthenticated<T>(url: string, requestConfig: RequestInit, message?: string): Promise<T | undefined> {
+export async function fetchAuthenticated<T>(url: string, requestConfig: RequestInit, message?: string): Promise<BaseResponse<T> | undefined> {
 	const authKey = window.localStorage.getItem(config.authKey)
 	const domainKey = window.localStorage.getItem('domainkey')
 	const key: Domain | null = domainKey ? JSON.parse(domainKey) : null
@@ -64,18 +61,19 @@ export async function fetchAuthenticated<T>(url: string, requestConfig: RequestI
 
 	const res = await fetch(newUrl, authConfig)
 	return await validateFetch<T>(res, message)
-
-	// return throwOnError(data, message)
 }
 
-export async function validateFetch<T>(response: Response, message?: string): Promise<T | undefined> {
+export async function validateFetch<T>(response: Response, message?: string): Promise<BaseResponse<T>> {
 	switch (response.status) {
 		case 200:
 		case 400:
 		case 500: {
 			try {
-				return await response.json() as T
-			} catch (e) {
+				return await response.json() as BaseResponse<T>
+			} catch (e: unknown) {
+				if (e instanceof Error) {
+					throw e
+				}
 				throw new Error(message)
 			}
 		}

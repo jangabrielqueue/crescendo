@@ -15,7 +15,7 @@ const useGameListApi = () => {
         errorMessage: errorMessage.DefaultRequestErrorMessage
     }, mutateGetFetcherWithParams<string[]>)
 
-    return { data: getData(data), isLoading: isMutating, mutate: trigger }
+    return { data: getData(data as string[]), isLoading: isMutating, mutate: trigger }
 }
 
 export default useGameListApi

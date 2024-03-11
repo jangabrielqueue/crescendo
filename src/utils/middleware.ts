@@ -81,7 +81,7 @@ export async function validateFetch<T>(response: Response): Promise<BaseResponse
 		}
 		case 401:
 		case 403: {
-			window.location.href = `${config.casURL}logout?client=${config.casClientId}&op=${config.casOperator}`
+			window.location.href = `${config.casURL}login?next=${window.location.protocol}//${window.location.host + config.relativeRoot}auth&client=${config.casClientId}&op=${config.casOperator}`
 		}
 	}
 }

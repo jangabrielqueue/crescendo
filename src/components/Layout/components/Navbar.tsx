@@ -1,5 +1,5 @@
 import { NavLink as RouterNavLink } from 'react-router-dom'
-import { SunIcon, MoonIcon, PuzzlePieceIcon } from '@heroicons/react/16/solid'
+import { SunIcon, MoonIcon, PuzzlePieceIcon, ChartPieIcon, UsersIcon, ClipboardDocumentListIcon, ChartBarIcon, TrophyIcon, BanknotesIcon, ServerStackIcon } from '@heroicons/react/16/solid'
 import Logo from './Logo'
 import AccountDropdown from './AccountDropdown'
 
@@ -21,42 +21,42 @@ const navs: NavLinkProps[] = [
 		to: '/gamelist',
 		label: 'Game List',
 		icon: PuzzlePieceIcon
+	},
+	{
+		to: '/dashboard',
+		label: 'Dashboard',
+		icon: ChartPieIcon
+	},
+	{
+		to: '/memberlist',
+		label: 'Member List',
+		icon: UsersIcon
+	},
+	{
+		to: '/gamehistory',
+		label: 'Game History',
+		icon: ClipboardDocumentListIcon
+	},
+	{
+		to: '/winlose',
+		label: 'Reports',
+		icon: ChartBarIcon
+	},
+	{
+		to: '/tournament',
+		label: 'Tournament',
+		icon: TrophyIcon
+	},
+	{
+		to: '/jackpot',
+		label: 'Jackpot',
+		icon: BanknotesIcon
+	},
+	{
+		to: '/gameservices',
+		label: 'System',
+		icon: ServerStackIcon
 	}
-	// {
-	// 	to: '/dashboard',
-	// 	label: 'Dashboard',
-	// 	icon: ChartPieIcon
-	// },
-	// {
-	// 	to: '/memberlist',
-	// 	label: 'Member List',
-	// 	icon: UsersIcon
-	// },
-	// {
-	// 	to: '/gamehistory',
-	// 	label: 'Game History',
-	// 	icon: ClipboardDocumentListIcon
-	// },
-	// {
-	// 	to: '/winlose',
-	// 	label: 'Reports',
-	// 	icon: ChartBarIcon
-	// },
-	// {
-	// 	to: '/tournament',
-	// 	label: 'Tournament',
-	// 	icon: TrophyIcon
-	// },
-	// {
-	// 	to: '/jackpot',
-	// 	label: 'Jackpot',
-	// 	icon: BanknotesIcon
-	// },
-	// {
-	// 	to: '/gameservices',
-	// 	label: 'System',
-	// 	icon: ServerStackIcon
-	// }
 ]
 
 const styles = {

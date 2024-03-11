@@ -49,7 +49,7 @@ const UsersPerRegion = () => {
           categories={legendCategories}
         />
       </Flex>
-      <Card className='p-0 py-1 rounded-b-md bg-dark-tremor-background-subtle dark:bg-dark-tremor-background-emphasis'>
+      <Card className='p-0 py-1 rounded-b-md bg-dark-tremor-background-subtle dark:bg-black'>
         <RegionMap
           values={newData.regionValue}
         />

@@ -17,10 +17,10 @@ import { twMerge } from 'tailwind-merge'
 // styles
 const styles = {
 	table: 'border rounded-md border-tremor-border dark:border-dark-tremor-border relative',
-	stickyAction: 'sticky right-0 dark:bg-dark-tremor-background-subtle bg-tremor-background-subtle',
+	stickyAction: 'sticky right-0',
 	stickyActionCell: 'sticky right-0 bg-tremor-background dark:bg-dark-tremor-background',
 	celOnHover: 'hover:bg-tremor-background-muted dark:hover:bg-dark-tremor-background-muted',
-	header: 'dark:bg-dark-tremor-background-subtle bg-tremor-background-subtle rounded-t-lg',
+	header: 'rounded-t-lg',
 	progressbar: 'animate-progress p-0.5 bg-tremor-brand-subtle dark:bg-dark-tremor-brand-subtle absolute z-20',
 	backdrop: 'w-full h-full top-0 absolute z-10 border-none bg-gradient-to-b dark:from-black/40 dark:to-black/100  from-white/40 to-white/100 bg-opacity-0 dark:bg-opacity-0'
 }
