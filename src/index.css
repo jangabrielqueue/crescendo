@@ -19,3 +19,9 @@
 body {
   @apply bg-tremor-background-subtle dark:bg-dark-tremor-background-subtle
 }
+
+@layer utilities {
+  .border-color {
+    @apply border-tremor-border dark:border-dark-tremor-border
+  }
+}

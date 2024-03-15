@@ -6,7 +6,7 @@ type ComplexPaginationProps = {
 } & ComplexPaged
 
 const styles = {
-	button: 'rounded-full border-tremor-border text-tremor-content dark:border-dark-tremor-border dark:text-dark-tremor-content'
+	button: 'rounded-full border-color text-tremor-content dark:text-dark-tremor-content'
 }
 
 const ComplexPagination = ({ cursor, noMoreData, onPageChange }: ComplexPaginationProps): JSX.Element | null => {

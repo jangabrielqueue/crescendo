@@ -105,15 +105,12 @@ const useGameHistoryApi = () => {
           { value: 'win', label: 'Win' },
           { value: 'createdOn', label: 'TXN Time' },
           { value: 'platformTypeString', label: 'Platform' },
-
-
         ],
         fileName
       })
     } else {
       showError(new Error('No Data Found'))
     }
-
   }
   return { data, isLoading: isMutating, trigger, getCsv }
 }

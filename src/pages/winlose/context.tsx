@@ -1,38 +1,15 @@
-import { createContext, useState } from 'react'
+import useQueryState from '@hooks/useQueryState'
+import { createContext } from 'react'
 
-type WinLose = 'topWinners' | 'gamePerformance' | 'winLose' | 'operator' | 'platform'
-interface Filter {
-  operatorId?: number | string
-  gameId?: number | string
-  currencyId?: number | string
-  memberName?: string
-  startDate?: string
-  endDate?: string
-  top?: number | string
-  StartDate?: string
-  EndDate?: string
-  OperatorId?: number | string
-  GameId?: number
-  isDemoAccount?: boolean
-  isFreeRounds?: boolean
-  isDemo?: boolean
-  formatFilterType?: string
-}
-export type Filters = Record<WinLose, Filter>
-type ContextValue = [Filters, React.Dispatch<React.SetStateAction<Filters>>]
+const queries = ['operatorId', 'gameId', 'currencyId', 'memberName', 'startDate', 'endDate', 'top', 'IsDemoAccount', 'isDemo', 'isFreeRounds', 'formatFilterType'] as const
 
-const defaultForm: Filters = {
-  topWinners: {},
-  gamePerformance: {},
-  winLose: {},
-  operator: {},
-  platform: {}
-}
+type Filters = { [key in typeof queries[number]]?: string }
+type ContextValue = [Filters, (name: typeof queries[number], val: string | undefined) => void]
 
-export const WinLoseContext = createContext<ContextValue>([defaultForm, () => { }])
+export const WinLoseContext = createContext<ContextValue>([{}, () => { }])
 
 const ContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const filters = useState(defaultForm)
+  const filters = useQueryState(queries)
 
   return (
     <WinLoseContext.Provider value={filters}>

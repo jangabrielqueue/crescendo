@@ -32,7 +32,7 @@ export const getDateFromPeriod = (filters: CardFiltersPayload) => {
   return { StartDate: datetime.getStartDate(startDate), EndDate: datetime.getEndDate(endDate) }
 }
 
-export const checkObjectKeys = (object: object, key: string): key is keyof typeof object => Object.hasOwn(object, key)
+export const checkObjectKeys = (object: object, key: string | symbol | number): key is keyof typeof object => Object.hasOwn(object, key)
 
 export const TruncateNumericValue = (value: number, decimalPlaces: number = 2): string => {
   const absValue = Math.abs(value)
@@ -55,14 +55,15 @@ export const isNullOrWhiteSpace = (str: unknown): str is (undefined | null) => {
   if (typeof str === 'string' && str.replace(' ', '').length === 0) return true
   return false
 }
+export type CsvFields<T> = ({ label: string, value: string | ((row: T) => string) })
 
-interface ObjectAsCsvOptions {
-  object: object,
-  fields?: ({ label: string, value: string })[],
+interface ObjectAsCsvOptions<T extends object> {
+  object: T[],
+  fields?: CsvFields<T>[],
   fileName: string
 }
 
-export function GetObjectAsCsv({ object, fileName, ...rest }: ObjectAsCsvOptions) {
+export function GetObjectAsCsv<T extends object>({ object, fileName, ...rest }: ObjectAsCsvOptions<T>) {
   const parser = new Parser(rest)
   try {
     const csv = parser.parse(object)
@@ -97,4 +98,11 @@ export function convertToGmt(createdOnUtc: string) {
   const utcDate = new Date(createdOnUtc)
   const gmtPlus8Date = new Date(utcDate.getTime() + 8 * 60 * 60 * 1000)
   return gmtPlus8Date.toLocaleString()
+}
+
+export const getBooleanQuery = (query: string | null | undefined) => {
+  if (query === 'null' || query == null) {
+    return null
+  }
+  return query === 'true'
 }

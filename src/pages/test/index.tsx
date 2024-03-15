@@ -66,6 +66,7 @@ const data: DataResponse[] = [
 ]
 
 const columns: Array<TableColumns<DataResponse>> = [
+	'EXPANDER',
 	{
 		field: 'name',
 		headerName: 'Name'
@@ -113,7 +114,12 @@ const Test = () => {
 			<DataTable
 				data={data}
 				columns={columns}
-				loading
+				expandable={{
+					render({ records }) {
+						return <pre>{JSON.stringify(records, null, 2)}</pre>
+					},
+					expandOnRowClick: true
+				}}
 			/>
 			{/* <RegionMaps /> */}
 			<LineChart

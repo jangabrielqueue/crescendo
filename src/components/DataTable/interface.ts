@@ -5,11 +5,14 @@ export interface RenderCellParams<T> {
 	value?: T[keyof T]
 	data?: T[]
 	index: number
+	expander: () => void
+	isExpanded: boolean
 }
 
 export const COLUMN = {
 	EXPANDER: 'EXPANDER'
 } as const
+
 interface BasicTableColumns<T> {
 	field: keyof T | 'action'
 	headerName: string
@@ -22,15 +25,18 @@ interface BasicTableColumns<T> {
 }
 
 export type TableColumns<T> = BasicTableColumns<T> | ObjectValues<typeof COLUMN>
-export interface DataTableProps<T> {
+export interface DataTableProps<T, K> {
 	data: T[]
 	columns: Array<TableColumns<T>>
 	loading?: boolean
 	expandable?: {
-		render: (records: T) => JSX.Element
+		render: ({ records, expander, isExpanded, index }: { records: T, expander: () => void, isExpanded: boolean, index: number }) => JSX.Element
 		isExpandable?: (records: T) => boolean
 		expandOnRowClick?: boolean
 		expandIcon?: JSX.Element
 	}
 	tableClassName?: string
+	headerCellsClassName?: string
+	ExtraHeaders?: () => JSX.Element
+	footer?: undefined | ((data?: T[]) => { [key in keyof T]?: K } | undefined)
 }

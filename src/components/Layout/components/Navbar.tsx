@@ -38,7 +38,7 @@ const navs: NavLinkProps[] = [
 		icon: ClipboardDocumentListIcon
 	},
 	{
-		to: '/winlose',
+		to: '/winlose?uiFormat=2',
 		label: 'Reports',
 		icon: ChartBarIcon
 	},
@@ -65,7 +65,7 @@ const styles = {
 	switch: 'text-tremor-brand-inverted cursor-pointer active:scale-125',
 	upperNav: 'bg-tremor-brand p-3 px-6 flex items-center justify-between w-full',
 	lowerNav: 'bg-dark-tremor-background-muted p-2',
-	navList: 'flex gap-3 text-slate-300 text-sm'
+	navList: 'flex gap-3 flex-wrap text-slate-300 text-sm'
 }
 
 const SwitchIcon = ({ toggle, checked }: { toggle: () => void, checked: boolean }) => {

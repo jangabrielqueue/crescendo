@@ -8,7 +8,7 @@ export interface GameListModel {
     isEnabled?: boolean
 }
 
-const getData = (data: string[] | undefined) => data?.map((name) => ({ gameName: name })) || []
+const getData = (data: string[] | undefined): GameListModel[] => data?.map((name) => ({ gameName: name })) || []
 const useGameListApi = () => {
     const { data, isMutating, trigger } = useSWRMutation({
         url: 's/games',

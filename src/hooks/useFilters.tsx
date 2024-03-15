@@ -42,8 +42,14 @@ const useFilters = () => {
     { text: 'Real', value: false }
   ]
 
+  const transactionTypesOptions = [
+    { text: 'All Transactions', value: null },
+    { text: 'Exclude Free Rounds', value: false },
+    { text: 'Free Rounds Only', value: true },
+  ]
+
   const DateFilter = ['Show All', 'Daily', 'Weekly', 'Monthly']
-  const dateFilterOptions = DateFilter.map(date => ({ label: date, value: date }))
+  const dateFilterOptions = DateFilter.map(date => ({ text: date, value: date }))
   const spinTypes = ['All', 'Spin', 'Bonus']
   const spinTypesOptions = spinTypes.map((v, i) => ({ text: v, value: i }))
   const topItems = ['10', '25', '50', '100']
@@ -55,7 +61,8 @@ const useFilters = () => {
     accountTypes: accountTypeOptions,
     spinTypes: spinTypesOptions,
     dateFilters: dateFilterOptions,
-    topItems: topItemsOptions
+    topItems: topItemsOptions,
+    transactionTypes: transactionTypesOptions
   }
 }
 

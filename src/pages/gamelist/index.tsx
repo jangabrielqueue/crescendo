@@ -50,15 +50,15 @@ const GameList = () => {
     }
   ]
   return (
-    <>
-      <Card>
+    <div className='m-2'>
+      <Card className='p-0'>
         <DataTable
           data={data ?? []}
           loading={isLoading}
           columns={columns}
         />
       </Card>
-    </>
+    </div>
   )
 }
 

@@ -5,7 +5,7 @@ type Data<T extends string> = {
   [Property in T]: string
 }
 
-const useQueryState = <T extends string,>(names: T[]): [Data<T>, (name: T, value: string | undefined) => void] => {
+const useQueryState = <T extends string,>(names: readonly T[]): [Data<T>, (name: T, value: string | undefined) => void] => {
   const [query, setQuery] = useSearchParams()
 
   const handleSetter = (name: T, value: string | undefined) => {
@@ -18,7 +18,7 @@ const useQueryState = <T extends string,>(names: T[]): [Data<T>, (name: T, value
     })
   }
 
-  const data = names.reduce((prev: Data<T>, curr): Data<T> => {
+  const data = names.reduce((prev, curr) => {
     const value = query.get(curr)
 
     if (!isNullOrWhiteSpace(value)) {

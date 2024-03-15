@@ -1,5 +1,4 @@
 import { errorMessage } from '@utils/api'
-import { PagedData } from '@utils/interface'
 import { mutateGetFetcherWithParams } from '@utils/middleware'
 import useSWRMutation from 'swr/mutation'
 
@@ -43,13 +42,12 @@ export interface TopWinnersModel {
   format: ItemFormat
   details: TopWinnerDetail[]
 }
-type TopWinnerData = PagedData<TopWinnersModel[]>
 
 const useTopWinnerApi = () => {
   const { data, isMutating, trigger } = useSWRMutation({
     url: '/topwinners',
     errorMessage: errorMessage.DefaultRequestErrorMessage
-  }, mutateGetFetcherWithParams<TopWinnerData>)
+  }, mutateGetFetcherWithParams<TopWinnersModel[]>)
 
   return { data, isLoading: isMutating, mutate: trigger }
 }

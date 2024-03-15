@@ -1,11 +1,11 @@
 import { errorMessage } from '@utils/api'
-import { PagedData } from '@utils/interface'
 import { mutateGetFetcherWithParams } from '@utils/middleware'
 import useSWRMutation from 'swr/mutation'
 
 export type FilterDateTypeEntry = 'None' | 'Daily' | 'Weekly' | 'Monthly' | 'Currency' | 'Member';
 
 export interface GamePerformanceModel {
+  gameId: number
   game: string
   index: number
   memberName: string
@@ -22,7 +22,7 @@ export interface GamePerformanceModel {
   totalWinRmb: string | number
   gameIncomeRmb: string | number
   gamePayoutPer: string | number
-  format: FilterDateTypeEntry 
+  format: FilterDateTypeEntry
   details: GamePerformanceModel[]
   memberDetails: GamePerformanceModel[]
   isFetchingMemberDetails: boolean
@@ -30,14 +30,11 @@ export interface GamePerformanceModel {
   endDate: string
 }
 
-type GamePerformanceData = PagedData<GamePerformanceModel[]>
-
 const useGamePerformanceApi = () => {
   const { data, isMutating, trigger } = useSWRMutation({
     url: '/gameperformance',
     errorMessage: errorMessage.DefaultRequestErrorMessage
-  }, mutateGetFetcherWithParams<GamePerformanceData>)
-
+  }, mutateGetFetcherWithParams<GamePerformanceModel[]>)
   return { data, isLoading: isMutating, mutate: trigger }
 }
 
