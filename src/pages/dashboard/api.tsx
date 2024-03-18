@@ -1,12 +1,12 @@
-import { fetcherGetApiWithParams } from '@utils/middleware'
 import { useContext } from 'react'
 import { DashboardContext } from './context'
 import { errorMessage } from '@utils/api'
 import useSWRImmutable from 'swr/immutable'
 import { CardFilterValue } from './interface'
+import { fetcherGetApiWithParams } from '@utils/newMiddleware'
 
-function localReceiveCardFilter(data: CardFilterValue | undefined): string[] | undefined {
-	if (data == null) return undefined
+function localReceiveCardFilter(data: CardFilterValue | undefined): string[] {
+	if (data == null) return []
 	const targetData = data.tables[0].rows
 	const filterCollection = targetData.map((item): string => {
 		return item[0]
@@ -39,9 +39,9 @@ const useDashboardFilters = () => {
 	}, fetcherGetApiWithParams<CardFilterValue>)
 
 	return {
-		currencies: localReceiveCardFilter(currencies?.value),
-		regions: localReceiveCardFilter(regions?.value),
-		operators: localReceiveCardFilter(operators?.value)
+		currencies: localReceiveCardFilter(currencies),
+		regions: localReceiveCardFilter(regions),
+		operators: localReceiveCardFilter(operators)
 	}
 }
 

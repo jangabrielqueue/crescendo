@@ -1,5 +1,5 @@
 import { errorMessage } from '@utils/api'
-import { mutateGetFetcherWithParams } from '@utils/middleware'
+import { mutateGetFetcherWithParams } from '@utils/newMiddleware'
 import useSWRMutation from 'swr/mutation'
 
 export interface ByMerchantModel {
@@ -28,7 +28,7 @@ const useOperatorApi = () => {
     errorMessage: errorMessage.DefaultRequestErrorMessage
   }, mutateGetFetcherWithParams<ByMerchantModel[]>)
 
-  return { data, isLoading: isMutating, mutate: trigger }
+  return { data: data || [], isLoading: isMutating, mutate: trigger }
 }
 
 export default useOperatorApi

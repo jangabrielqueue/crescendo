@@ -2,7 +2,7 @@ import { DashboardContext } from '@pages/dashboard/context'
 import { ChartDataValue, GamePerformanceModel } from '@pages/dashboard/interface'
 import { errorMessage } from '@utils/api'
 import { Period } from '@utils/interface'
-import { fetcherGetApiWithParams } from '@utils/middleware'
+import { fetcherGetApiWithParams } from '@utils/newMiddleware'
 import dayjs from 'dayjs'
 import { useContext } from 'react'
 import useSWRImmutable from 'swr/immutable'
@@ -75,7 +75,7 @@ export const useDasboardDailyUniqueUsers = () => {
     errorMessage: errorMessage.DefaultRequestErrorMessage
   }, fetcherGetApiWithParams<ChartDataValue>)
 
-  return { data: getDailyUniqueUsers(data?.value, filters.Period), isValidating }
+  return { data: getDailyUniqueUsers(data, filters.Period), isValidating }
 }
 
 export const useDasboardWinLose = () => {
@@ -96,7 +96,7 @@ export const useDasboardWinLose = () => {
     errorMessage: errorMessage.DefaultRequestErrorMessage
   }, fetcherGetApiWithParams<WinLoseModel[]>)
 
-  return { data: getWinLose(data?.value, filters.Period), isValidating }
+  return { data: getWinLose(data, filters.Period), isValidating }
 }
 
 export const useDasboardSpin = () => {
@@ -116,6 +116,6 @@ export const useDasboardSpin = () => {
     },
     errorMessage: errorMessage.DefaultRequestErrorMessage
   }, fetcherGetApiWithParams<GamePerformanceModel[]>)
-  return { data: getSpins(data?.value, filters.Period) }
+  return { data: getSpins(data, filters.Period) }
 }
 

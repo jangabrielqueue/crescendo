@@ -8,11 +8,12 @@ const styles = {
 interface SearchWithCsvProps {
   onSearch: () => void
   onCsv: () => void
-  disableCsv: boolean
+  disableCsv: boolean,
+  className?: string
 }
-const SearchWithCsv = ({ onSearch, onCsv, disableCsv }: SearchWithCsvProps) => {
+const SearchWithCsv = ({ onSearch, onCsv, disableCsv, className }: SearchWithCsvProps) => {
   return (
-    <div className='inline-flex rounded-full'>
+    <div className={twMerge('inline-flex rounded-full', className)}>
       <Button
         className={styles.buttonSearch}
         variant='light'

@@ -1,7 +1,7 @@
 import { DashboardContext } from '@pages/dashboard/context'
 import { ChartDataValue } from '@pages/dashboard/interface'
 import { errorMessage } from '@utils/api'
-import { fetcherGetApiWithParams } from '@utils/middleware'
+import { fetcherGetApiWithParams } from '@utils/newMiddleware'
 import { useContext } from 'react'
 import useSWRImmutable from 'swr/immutable'
 
@@ -23,5 +23,5 @@ export const useDasboardUsersByCurrency = () => {
     errorMessage: errorMessage.DefaultRequestErrorMessage
   }, fetcherGetApiWithParams<ChartDataValue>)
 
-  return { ...getUsersByCurrencies(data?.value), isValidating }
+  return { ...getUsersByCurrencies(data), isValidating }
 }

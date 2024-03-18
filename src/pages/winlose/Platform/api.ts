@@ -1,5 +1,5 @@
 import { errorMessage } from '@utils/api'
-import { mutateGetFetcherWithParams } from '@utils/middleware'
+import { mutateGetFetcherWithParams } from '@utils/newMiddleware'
 import useSWRMutation from 'swr/mutation'
 
 export interface PlatformListModel {
@@ -21,13 +21,13 @@ export interface PlatformListModel {
   // currencyDetails
 }
 
-const useOperatorApi = () => {
+const usePlatformApi = () => {
   const { data, isMutating, trigger } = useSWRMutation({
     url: '/winlose/byplatform',
     errorMessage: errorMessage.DefaultRequestErrorMessage
   }, mutateGetFetcherWithParams<PlatformListModel[]>)
 
-  return { data, isLoading: isMutating, mutate: trigger }
+  return { data: data || [], isLoading: isMutating, mutate: trigger }
 }
 
-export default useOperatorApi
+export default usePlatformApi

@@ -1,6 +1,7 @@
-import { Option } from '@components/Form/InputSelect'
+import { Option } from '@components/Form/interface'
+import useDashboardFilters from '@pages/dashboard/api'
 import { errorMessage } from '@utils/api'
-import { fetcherGetApiWithParams } from '@utils/middleware'
+import { fetcherGetApiWithParams } from '@utils/newMiddleware'
 import useSWRImmutable from 'swr/immutable'
 
 type SelectList = Option<string>[]
@@ -23,7 +24,12 @@ const useFilters = () => {
     params: {},
     errorMessage: errorMessage.DefaultRequestErrorMessage
   }, fetcherGetApiWithParams<SelectList>)
+  const { currencies: dashCurrencies, regions: dashRegions, operators: dashOperators } = useDashboardFilters()
 
+
+  const dashCurrencyOptions = dashCurrencies.map((val) => ({ text: val, value: val }))
+  const dashRegionsOptions = dashRegions.map((val) => ({ text: val, value: val }))
+  const dashOperatorOptions = dashOperators.map((val) => ({ text: val, value: val }))
 
   const PlatformIds = [0, 1, 2, 3, 4, 11, 100]
   const ALL_PLATFORM_IDS = PlatformIds.join(',')
@@ -47,7 +53,10 @@ const useFilters = () => {
     { text: 'Exclude Free Rounds', value: false },
     { text: 'Free Rounds Only', value: true },
   ]
-
+  const domainOptions = [
+    { text: 'GPI', value: 'gpi' },
+    { text: 'Crescendo', value: 'crescendo' }
+  ]
   const DateFilter = ['Show All', 'Daily', 'Weekly', 'Monthly']
   const dateFilterOptions = DateFilter.map(date => ({ text: date, value: date }))
   const spinTypes = ['All', 'Spin', 'Bonus']
@@ -56,14 +65,18 @@ const useFilters = () => {
   const topItemsOptions = topItems.map(top => ({ text: top, value: top }))
 
   return {
-    operators: operators?.value, games: games?.value, currencies: currencies?.value,
+    operators: operators || [], games: games || [], currencies: currencies || [],
     platforms: platformOptions,
     accountTypes: accountTypeOptions,
     spinTypes: spinTypesOptions,
     dateFilters: dateFilterOptions,
     topItems: topItemsOptions,
-    transactionTypes: transactionTypesOptions
+    transactionTypes: transactionTypesOptions,
+    domainOptions,
+    dashCurrencyOptions,
+    dashOperatorOptions,
+    dashRegionsOptions
   }
 }
-
+export type FilterKeys = keyof ReturnType<typeof useFilters>
 export default useFilters

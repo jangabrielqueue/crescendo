@@ -3,13 +3,11 @@ import { WinLoseContext } from '../context'
 import InputSelect from '@components/Form/InputSelect'
 import { DateRangePicker } from '@tremor/react'
 import SearchWithCsv from '@components/SearchWithCsv'
-import useFilters from '@hooks/useFilters'
 import { datetime, getBooleanQuery } from '@utils/index'
 import { FilterProps } from '../interface'
 
 const Filters = ({ disableCsv, search, getCsv }: FilterProps) => {
   const [platform, setQuery] = useContext(WinLoseContext)
-  const { operators, games, accountTypes, currencies, transactionTypes } = useFilters()
 
   const handleDateChange = ({ from, to }: { from?: Date, to?: Date }) => {
     setQuery('startDate', datetime.getStartDate(from))
@@ -36,31 +34,31 @@ const Filters = ({ disableCsv, search, getCsv }: FilterProps) => {
       <div className='grid lg:grid-cols-6 md:grid-cols-3 grid-cols-1 gap-4 m-3'>
         <InputSelect
           value={platform.gameId}
-          options={games}
-          onChange={(val) => setQuery('gameId', val)}
+          option='games'
+          onChange={(val) => setQuery('gameId', String(val))}
           placeholder='Game'
         />
         <InputSelect
           value={platform.operatorId}
-          options={operators}
-          onChange={(val) => setQuery('operatorId', val)}
+          option='operators'
+          onChange={(val) => setQuery('operatorId', String(val))}
           placeholder='Operator'
         />
         <InputSelect
           value={platform.currencyId}
-          options={currencies}
-          onChange={(val) => setQuery('currencyId', val)}
+          option='currencies'
+          onChange={(val) => setQuery('currencyId', String(val))}
           placeholder='Currency'
         />
         <InputSelect
           value={getBooleanQuery(platform.isFreeRounds)}
-          options={transactionTypes}
+          option='transactionTypes'
           onChange={(val) => setQuery('isFreeRounds', String(val))}
           placeholder='Transaction Type'
         />
         <InputSelect
           value={getBooleanQuery(platform.isDemo)}
-          options={accountTypes}
+          option='accountTypes'
           onChange={(val) => setQuery('isDemo', String(val))}
           placeholder='Account Type'
         />
@@ -72,7 +70,7 @@ const Filters = ({ disableCsv, search, getCsv }: FilterProps) => {
           }}
           onValueChange={handleDateChange}
         />
-        <div className='lg:col-span-6 md:col-span-3 max-md:col-span-1 flex justify-center'>
+        <div className='col-span-full flex justify-center'>
           <SearchWithCsv onCsv={handleCsv} onSearch={handleSearch} disableCsv={disableCsv} />
         </div>
       </div>

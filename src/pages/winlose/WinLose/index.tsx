@@ -27,7 +27,7 @@ const WinLoseTab = () => {
   const [detailFormat, setDetailFormat] = useState<Record<number, (typeof detailFormats[number])[]>>({})
   const [detailDialog, setDetailDialog] = useState<DetailDialog>()
   const { showError } = useSnackbar()
-  const hasNoData = data == null || data.value?.length === 0
+  const hasNoData = data.length === 0
 
   const columns: Array<TableColumns<WinLoseModel>> = [
     { headerName: 'Date', field: 'date' },
@@ -137,9 +137,9 @@ const WinLoseTab = () => {
   }
 
   const getCsv = (fileName: string) => {
-    if (data?.value != null) {
+    if (!hasNoData) {
       GetObjectAsCsv({
-        object: data.value,
+        object: data,
         fields: [
           ...checkObjectKeys(CsvFirstColumn, formatFilterType) ? [CsvFirstColumn[formatFilterType]] : [],
           { label: 'Member Count', value: 'noOfPlayer' },
@@ -172,7 +172,7 @@ const WinLoseTab = () => {
       <Filters disableCsv={hasNoData} search={handleSearch} getCsv={getCsv} />
       <Divider />
       <DataTable
-        data={data?.value || []}
+        data={data}
         columns={columns}
         loading={isLoading}
         expandable={{

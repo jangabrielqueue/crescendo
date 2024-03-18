@@ -3,13 +3,11 @@ import { WinLoseContext } from '../context'
 import InputSelect from '@components/Form/InputSelect'
 import { DateRangePicker } from '@tremor/react'
 import SearchWithCsv from '@components/SearchWithCsv'
-import useFilters from '@hooks/useFilters'
 import { datetime, getBooleanQuery } from '@utils/index'
 import { FilterProps } from '../interface'
 
 const Filters = ({ disableCsv, search, getCsv }: FilterProps) => {
   const [gamePerformance, setQuery] = useContext(WinLoseContext)
-  const { operators, games, accountTypes } = useFilters()
 
   const handleDateChange = ({ from, to }: { from?: Date, to?: Date }) => {
     setQuery('startDate', datetime.getStartDate(from))
@@ -36,19 +34,19 @@ const Filters = ({ disableCsv, search, getCsv }: FilterProps) => {
       <div className='grid grid-cols-2 max-sm:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 grid-rows-none gap-4 m-3'>
         <InputSelect
           value={gamePerformance.operatorId}
-          options={operators}
-          onChange={(val) => setQuery('operatorId', val)}
+          option='operators'
+          onChange={(val) => setQuery('operatorId', String(val))}
           placeholder='Operator'
         />
         <InputSelect
           value={gamePerformance.gameId}
-          options={games}
-          onChange={(val) => setQuery('gameId', val)}
+          option='games'
+          onChange={(val) => setQuery('gameId', String(val))}
           placeholder='Game'
         />
         <InputSelect
           value={getBooleanQuery(gamePerformance.IsDemoAccount)}
-          options={accountTypes}
+          option='accountTypes'
           onChange={(val) => setQuery('IsDemoAccount', String(val))}
           placeholder='Account Type'
         />

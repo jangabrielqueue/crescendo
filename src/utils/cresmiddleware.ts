@@ -8,7 +8,7 @@ import { Domain } from '@context/DomainContext'
 type BaseResponse<T> = {
 	value?: T
 	error?: string
-} | T | void
+} | T
 
 interface FetcherParams extends FetcherMutateParams {
 	params: object
@@ -63,7 +63,7 @@ export async function fetchAuthenticated<T>(url: string, requestConfig: RequestI
 	return await validateFetch<T>(res, message)
 }
 
-export async function validateFetch<T>(response: Response, message?: string): Promise<BaseResponse<T>> {
+export async function validateFetch<T>(response: Response, message?: string) {
 	switch (response.status) {
 		case 200:
 		case 400:

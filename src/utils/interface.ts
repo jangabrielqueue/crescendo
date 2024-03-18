@@ -14,7 +14,7 @@ export type BaseResponse<T> = {
 	isError: boolean,
 	error: string,
 	value: T | undefined
-} | void
+}
 
 export interface Selectlist<Value> {
 	label: string,

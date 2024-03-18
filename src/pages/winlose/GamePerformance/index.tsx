@@ -137,7 +137,7 @@ const GamePerformanceTab = () => {
   const [filters] = useContext(WinLoseContext)
   const { data, mutate, isLoading } = useGamePerformanceApi()
   const { showError } = useSnackbar()
-  const hasNoData = data == null || data.value?.length === 0
+  const hasNoData = data == null || data?.length === 0
 
   const columns: Array<TableColumns<GamePerformanceModel>> = [
     { headerName: 'Game', field: 'game' },
@@ -158,7 +158,7 @@ const GamePerformanceTab = () => {
           !isExpanded && expander()
         }
         return (
-          <div className='flex gap-1'>
+          <div className='flex gap-1 justify-center'>
             <Button tooltip='Daily' size='xs' onClick={() => handleExpand('Daily')} variant='light'>
               <Icon variant={detailFormat[index] === 'Daily' ? 'solid' : 'light'} icon={StopIcon} />
             </Button>
@@ -181,9 +181,9 @@ const GamePerformanceTab = () => {
   ]
 
   const getCsv = (fileName: string) => {
-    if (data?.value != null) {
+    if (data != null) {
       GetObjectAsCsv({
-        object: data.value,
+        object: data,
         fields: [
           { value: 'game', label: 'Game' },
           { value: 'noOfPlayer', label: 'Total # of Members', },
@@ -207,7 +207,7 @@ const GamePerformanceTab = () => {
       <Filters disableCsv={hasNoData} search={mutate} getCsv={getCsv} />
       <Divider />
       <DataTable
-        data={data?.value || []}
+        data={data || []}
         columns={columns}
         footer={footer}
         loading={isLoading}

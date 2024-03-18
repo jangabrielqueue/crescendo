@@ -1,7 +1,7 @@
 import { DashboardContext } from '@pages/dashboard/context'
 import { GamePerformanceModel } from '@pages/dashboard/interface'
 import { errorMessage } from '@utils/api'
-import { fetcherGetApiWithParams } from '@utils/middleware'
+import { fetcherGetApiWithParams } from '@utils/newMiddleware'
 import { useContext } from 'react'
 import useSWRImmutable from 'swr/immutable'
 
@@ -16,7 +16,7 @@ const getSpinByGames = (data: GamePerformanceModel[] | undefined) => {
 export const useDasboardSpinByGame = () => {
   const { filters: [filters], dateInPeriod } = useContext(DashboardContext)
 
-  const { data = { value: [] }, isValidating } = useSWRImmutable({
+  const { data, isValidating } = useSWRImmutable({
     url: '/dashboard/gameperformance',
     params: {
       ...dateInPeriod,
@@ -32,5 +32,5 @@ export const useDasboardSpinByGame = () => {
     errorMessage: errorMessage.DefaultRequestErrorMessage
   }, fetcherGetApiWithParams<GamePerformanceModel[]>)
 
-  return { data: getSpinByGames(data.value), isValidating }
+  return { data: getSpinByGames(data), isValidating }
 }

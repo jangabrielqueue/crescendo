@@ -1,6 +1,5 @@
 import InputSelect from '@components/Form/InputSelect'
 import SearchWithCsv from '@components/SearchWithCsv'
-import useFilters from '@hooks/useFilters'
 import useOnMountEffect from '@hooks/useOnMountEffect'
 import useQueryState from '@hooks/useQueryState'
 import { DateRangePicker, NumberInput, TextInput } from '@tremor/react'
@@ -14,7 +13,6 @@ type ErrorState<T extends string> = {
 const Filters = ({ trigger, getCsv, disableCsv }: { trigger: (obj: object) => void, getCsv: (fileName: string) => void, disableCsv: boolean }) => {
   const [filters, setFilters] = useQueryState(['StartDate', 'EndDate', 'MemberName', 'TransactionId', 'OperatorId', 'GameId', 'GameTransactionType', 'PlatformType', 'pageIndex', 'pageSize'])
   const [error, setError] = useState<ErrorState<keyof typeof filters>>({})
-  const { operators, games, spinTypes, platforms } = useFilters()
 
   const handleDateChange = (val: { from?: Date, to?: Date }) => {
     setFilters('StartDate', datetime.getStartDate(val.from))
@@ -81,28 +79,28 @@ const Filters = ({ trigger, getCsv, disableCsv }: { trigger: (obj: object) => vo
           placeholder='TXN ID'
         />
         <InputSelect
-          options={operators}
+          option='operators'
           value={filters.OperatorId}
-          onChange={(val) => setFilters('OperatorId', val)}
+          onChange={(val) => setFilters('OperatorId', String(val))}
           placeholder='Operator'
           error={error.OperatorId}
         />
         <InputSelect
-          options={games}
+          option='games'
           value={filters.GameId}
-          onChange={(val) => setFilters('GameId', val)}
+          onChange={(val) => setFilters('GameId', String(val))}
           placeholder='Game'
         />
         <InputSelect
-          options={spinTypes}
+          option='spinTypes'
           value={filters.GameTransactionType ? JSON.parse(filters.GameTransactionType) : undefined}
-          onChange={(val) => setFilters('GameTransactionType', val)}
+          onChange={(val) => setFilters('GameTransactionType', String(val))}
           placeholder='Type'
         />
         <InputSelect
-          options={platforms}
+          option='platforms'
           value={filters.PlatformType ? JSON.parse(filters.PlatformType) : undefined}
-          onChange={(val) => setFilters('PlatformType', val)}
+          onChange={(val) => setFilters('PlatformType', String(val))}
           placeholder='Platform'
         />
       </div>

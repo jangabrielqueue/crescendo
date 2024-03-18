@@ -22,6 +22,10 @@ import MemberList from '@pages/memberlist'
 import GameHistory from '@pages/gamehistory'
 import WinLose from '@pages/winlose'
 import Test from '@pages/test'
+import Tournament from '@pages/tournament'
+import Jackpot from '@pages/jackpot'
+import JackpotContributions from '@pages/jackpot/contributions'
+import JackpotWinners from '@pages/jackpot/winners'
 
 
 const router = createBrowserRouter([
@@ -59,11 +63,19 @@ const router = createBrowserRouter([
 	},
 	{
 		path: '/tournament',
-		element: <AuthLayout><Test /></AuthLayout>
+		element: <AuthLayout><Tournament /></AuthLayout>
 	},
 	{
 		path: '/jackpot',
-		element: <AuthLayout><Test /></AuthLayout>
+		element: <AuthLayout><Jackpot /></AuthLayout>
+	},
+	{
+		path: '/jackpot/contributions',
+		element: <AuthLayout><JackpotContributions /></AuthLayout>
+	},
+	{
+		path: '/jackpot/winners',
+		element: <AuthLayout><JackpotWinners /></AuthLayout>
 	},
 	{
 		path: '/gameservices',

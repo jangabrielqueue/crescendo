@@ -1,5 +1,4 @@
 import InputSelect from '@components/Form/InputSelect'
-import useFilters from '@hooks/useFilters'
 import useQueryState from '@hooks/useQueryState'
 import { Button, TextInput } from '@tremor/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid'
@@ -7,7 +6,6 @@ import useOnMountEffect from '@hooks/useOnMountEffect'
 
 const Filters = ({ mutate }: { mutate: (object: object) => void }) => {
   const [filters, setFilters] = useQueryState(['OperatorId', 'CurrencyId', 'DemoAccount', 'MemberId', 'MemberName', 'pageIndex', 'pageSize'])
-  const { operators, currencies, accountTypes: memberAccountTypes } = useFilters()
   const handleSearch = () => {
     const payload = { ...filters }
     if (filters.pageIndex == null) {
@@ -40,21 +38,21 @@ const Filters = ({ mutate }: { mutate: (object: object) => void }) => {
         placeholder='Member Name'
       />
       <InputSelect
-        options={operators}
+        option='operators'
         value={filters.OperatorId}
-        onChange={(val) => setFilters('OperatorId', val)}
+        onChange={(val) => setFilters('OperatorId', String(val))}
         placeholder='Operator'
       />
       <InputSelect
-        options={currencies}
+        option='currencies'
         value={filters.CurrencyId}
-        onChange={(val) => setFilters('CurrencyId', val)}
+        onChange={(val) => setFilters('CurrencyId', String(val))}
         placeholder='Currency'
       />
       <InputSelect
-        options={memberAccountTypes}
+        option='accountTypes'
         value={filters.DemoAccount ? JSON.parse(filters.DemoAccount) : undefined}
-        onChange={(val) => setFilters('DemoAccount', val)}
+        onChange={(val) => setFilters('DemoAccount', String(val))}
         placeholder='Account Type'
       />
       <Button className='w-24' icon={MagnifyingGlassIcon} onClick={handleSearch}>Search</Button>

@@ -1,7 +1,7 @@
 import { DashboardContext } from '@pages/dashboard/context'
 import { TopWinnersModel } from '@pages/dashboard/interface'
 import { errorMessage } from '@utils/api'
-import { fetcherGetApiWithParams } from '@utils/middleware'
+import { fetcherGetApiWithParams } from '@utils/newMiddleware'
 import { useContext } from 'react'
 import useSWRImmutable from 'swr/immutable'
 
@@ -32,5 +32,5 @@ export const useDasboardTopWinners = () => {
     errorMessage: errorMessage.DefaultRequestErrorMessage
   }, fetcherGetApiWithParams<TopWinnersModel[]>)
 
-  return { data: getTopWinners(data?.value), isValidating }
+  return { data: getTopWinners(data), isValidating }
 }

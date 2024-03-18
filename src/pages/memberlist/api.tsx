@@ -1,6 +1,6 @@
 import { errorMessage } from '@utils/api'
 import { PagedData } from '@utils/interface'
-import { mutateGetFetcherWithParams } from '@utils/middleware'
+import { mutateGetFetcherWithParams } from '@utils/newMiddleware'
 import useSWRMutation from 'swr/mutation'
 
 export interface MemberListModel {

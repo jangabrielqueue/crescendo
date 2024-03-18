@@ -1,26 +1,19 @@
-import { Domain, DomainContext } from '@context/DomainContext'
 import { useAuth } from '@hooks/useAuth'
 import config from '@utils/env'
-import { isNullOrWhiteSpace } from '@utils/index'
-import { BaseResponse } from '@utils/interface'
-import { validateFetch } from '@utils/middleware'
-import { useContext } from 'react'
+import { domainedFetch } from '@utils/newMiddleware'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
-async function getAuthentication(ticket: string, domainKey: Domain | null | undefined): Promise<BaseResponse<string>> {
-	const domain = domainKey === 'gpi' ? config.gpiBackOfficeApi : config.cresBackOfficeApi
-	const url = `${domain}cas/callback?ticket=${ticket}`
-
+async function getAuthentication(ticket: string) {
+	const url = `cas/callback?ticket=${ticket}`
 	const requestOptions: RequestInit = {
 		method: 'GET'
 	}
 
-	return fetch(url, requestOptions).then(async data => await validateFetch<string>(data))
+	return await domainedFetch<string>(url, requestOptions)
 }
 
 export const useSecurityCheck = () => {
 	const { decodedAuth, setAuthToken, CasLogout } = useAuth()
-	const [domainkey] = useContext(DomainContext)
 	const [searchParams] = useSearchParams()
 
 	const navigate = useNavigate()
@@ -29,9 +22,9 @@ export const useSecurityCheck = () => {
 		if (!decodedAuth?.isAuthenticated) {
 			const params = searchParams.get('ticket') || ''
 
-			const res = await getAuthentication(params, domainkey)
-			if (!isNullOrWhiteSpace(res?.value)) {
-				setAuthToken(res.value)
+			const res = await getAuthentication(params)
+			if (typeof res === 'string') {
+				setAuthToken(res)
 				navigate('/dashboard')
 			} else {
 				CasLogout()

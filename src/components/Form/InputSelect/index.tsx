@@ -1,27 +1,28 @@
 import { Select, SelectItem } from '@tremor/react'
 import Label from '../Label'
-export type Option<T> = {
-  text: string
-  value: T
-}
-interface InputSelectProps<T> {
-  options?: Option<T>[]
-  onChange: (val: T | undefined) => void
+import { Value } from '../interface'
+import useFilters, { FilterKeys } from '@hooks/useFilters'
+
+interface InputSelectProps {
+  option: FilterKeys
+  onChange: (val: Value | undefined) => void
   placeholder?: string
-  value: T
+  value: Value
   enableClear?: boolean
   label?: string
   error?: boolean
 }
-const InputSelect = <T,>({
-  options = [],
+const InputSelect = ({
+  option,
   onChange,
   placeholder = 'Select...',
   value,
   enableClear = false,
   label,
   error
-}: InputSelectProps<T>) => {
+}: InputSelectProps) => {
+  const filters = useFilters()
+  const options = filters[option] || []
   const handleValueChange = (val: string) => {
     const option = options.find((item) => String(item.value) === val)
     onChange(option?.value)

@@ -85,7 +85,7 @@ const TopWinnersTab = () => {
   const [detailFormat, setDetailFormat] = useState<Record<number, typeof detailFormats[number] | null>>({})
   const { data, mutate, isLoading } = useTopWinnerApi()
   const { showError } = useSnackbar()
-  const hasNoData = data == null || data.value?.length === 0
+  const hasNoData = data.length === 0
   const [filters] = useContext(WinLoseContext)
 
   const columns: Array<TableColumns<TopWinnersModel>> = [
@@ -134,9 +134,9 @@ const TopWinnersTab = () => {
   ]
 
   const getCsv = (fileName: string) => {
-    if (data?.value != null) {
+    if (!hasNoData) {
       GetObjectAsCsv({
-        object: data.value,
+        object: data,
         fields: [
           { label: 'CCY', value: 'currency' },
           { label: 'Member', value: 'name' },
@@ -175,7 +175,7 @@ const TopWinnersTab = () => {
       <Divider />
       <DataTable
         loading={isLoading}
-        data={data?.value || []}
+        data={data}
         columns={columns}
         ExtraHeaders={ExtraHeaders}
         headerCellsClassName={`${styles.headerCell} font-semibold`}

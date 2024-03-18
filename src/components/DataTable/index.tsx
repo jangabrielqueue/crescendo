@@ -22,14 +22,15 @@ import { useStateChangeEffect } from '@hooks/useStateChangeEffect'
 const styles = {
 	table: 'border rounded-md relative *:border-separate *:border-spacing-0 border-color', /*  */
 	stickyAction: 'sticky right-0 bg-tremor-background dark:bg-dark-tremor-background border-l text-center border-color',
-	stickyActionCell: 'sticky right-0 bg-tremor-background dark:bg-dark-tremor-background border-l pl-4 border-color flex justify-center items-center',
-	cell: 'group-hover:bg-tremor-background-subtle dark:group-hover:bg-dark-tremor-background-subtle border-b border-color',
+	stickyActionCell: 'sticky right-0 bg-tremor-background dark:bg-dark-tremor-background border-l pl-4 border-color',
+	cell: 'group-hover:bg-tremor-background-subtle dark:group-hover:bg-dark-tremor-background-muted border-b border-color',
 	row: 'group',
 	header: 'rounded-t-lg',
 	progressbar: 'animate-progress p-0.5 bg-tremor-brand-subtle dark:bg-dark-tremor-brand-subtle absolute z-20',
 	backdrop: 'w-full h-full top-0 absolute z-10 border-none bg-gradient-to-b dark:from-black/40 dark:to-black/100  from-white/40 to-white/100 bg-opacity-0 dark:bg-opacity-0',
 	footerCell: 'p-2 border-t border-color'
 }
+
 const DataTable = <T, K>({
 	data = [],
 	columns = [],
@@ -63,7 +64,7 @@ const DataTable = <T, K>({
 				<TableRow>
 					{
 						columns.map((column, idx) => {
-							if (column === 'EXPANDER') return <TableHeaderCell key={idx} />
+							if (column === 'EXPANDER') return <TableHeaderCell key={idx} className={twMerge('px-3 py-2', headerCellsClassName)} />
 							return (
 								<TableHeaderCell
 									key={idx}
@@ -93,14 +94,16 @@ const DataTable = <T, K>({
 						<React.Fragment key={dataIdx}>
 							<TableRow
 								className={styles.row}
-								{...expandable?.expandOnRowClick ? { onClick: expander } : {}}
 							>
 								{columns.map((column, columnIdx) => {
 									const key = `${dataIdx}${columnIdx}`
 									// Expander
 									if (column === 'EXPANDER') {
 										return (
-											<TableCell key={key}>
+											<TableCell
+												key={key}
+												className={twMerge('p-2', styles.cell)}
+											>
 												<Icon
 													className='hover:cursor-pointer'
 													icon={expandable?.expandIcon || isExpanded ? ChevronUpIcon : ChevronDownIcon}
@@ -120,9 +123,14 @@ const DataTable = <T, K>({
 									}
 									return (
 										<TableCell key={key}
+											{...expandable?.expandOnRowClick && column.field !== 'action' ? { onClick: expander } : {}}
 											className={twMerge('p-2', (column.field === 'action' ? styles.stickyActionCell : ''), styles.cell, column.cellClassName)}
 										>
-											{column.renderCell ? column.renderCell(params) : column.field !== 'action' ? item[column.field] as React.ReactNode : <></>}
+											{column.renderCell ?
+												column.renderCell(params)
+												: column.field !== 'action' ?
+													item[column.field] as React.ReactNode
+													: <></>}
 										</TableCell>
 									)
 								})}

@@ -15,6 +15,16 @@ interface FetcherMutateParams {
 	errorMessage?: string
 }
 
+export const mutatePostFetcher = <ResponseValue>(
+	{ url, errorMessage }: FetcherMutateParams,
+	{ arg: params = {} }: { arg?: object }
+) => {
+	return fetchAuthenticated<ResponseValue>(url, {
+		method: 'POST',
+		body: JSON.stringify(params)
+	}, errorMessage)
+}
+
 export const mutateGetFetcherWithParams = <ResponseValue>(
 	{ url, errorMessage }: FetcherMutateParams,
 	{ arg: params = {} }: { arg?: object }
@@ -23,13 +33,14 @@ export const mutateGetFetcherWithParams = <ResponseValue>(
 		method: 'GET'
 	}, errorMessage)
 }
+
 export const fetcherGetApiWithParams = <ResponseValue>({ url, params, errorMessage }: FetcherParams) => {
 	return fetchAuthenticated<ResponseValue>(`${url}${createParams(params)}`, {
 		method: 'GET'
 	}, errorMessage)
 }
 
-export const throwOnError = <T,>(response: BaseResponse<T>, message?: string) => {
+export const throwOnError = <T,>(response: BaseResponse<T> | undefined, message?: string) => {
 	if (typeof response === 'object' && response.isError) {
 		throw new Error(message || response.error)
 	} else {
@@ -47,7 +58,7 @@ export const createParams = (query: object) => (
 	}, '?')
 )
 
-export async function fetchAuthenticated<T>(url: string, requestConfig: RequestInit, message?: string): Promise<BaseResponse<T>> {
+export async function fetchAuthenticated<T>(url: string, requestConfig: RequestInit, message?: string) {
 	const authKey = window.localStorage.getItem(config.authKey)
 	const domainKey = window.localStorage.getItem('domainkey')
 	const key: Domain | null = domainKey ? JSON.parse(domainKey) : null
@@ -68,7 +79,7 @@ export async function fetchAuthenticated<T>(url: string, requestConfig: RequestI
 	return throwOnError(data, message)
 }
 
-export async function validateFetch<T>(response: Response): Promise<BaseResponse<T>> {
+export async function validateFetch<T>(response: Response) {
 	switch (response.status) {
 		case 200:
 		case 400:

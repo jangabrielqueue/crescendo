@@ -5,18 +5,13 @@ import utc from 'dayjs/plugin/utc'
 dayjs.extend(utc)
 
 export const datetime = {
-  getStartDate: (date?: Date | dayjs.Dayjs | string) => {
-    if (date == null) return undefined
-    return dayjs(date).startOf('day').utc().toISOString()
-  },
-  getEndDate: (date?: Date | dayjs.Dayjs | string) => {
-    if (date == null) return undefined
-    return dayjs(date).endOf('day').utc().toISOString()
-  },
-  getDate: (date?: Date | dayjs.Dayjs | string) => {
-    if (date == null) return undefined
-    return dayjs(date).utc().toISOString()
-  }
+  getStartDate: (date?: Date | dayjs.Dayjs | string) => date != null ? dayjs(date).startOf('day').utc().toISOString() : undefined,
+  getEndDate: (date?: Date | dayjs.Dayjs | string) => date != null ? dayjs(date).endOf('day').utc().toISOString() : undefined,
+  getDate: (date?: Date | dayjs.Dayjs | string) => date != null ? dayjs(date).utc().toISOString() : undefined,
+  convertLocalString: (date?: Date | dayjs.Dayjs | string) => date != null ? dayjs.utc(date).local().toLocaleString() : undefined,
+  convertLocalDate: (date?: Date | dayjs.Dayjs | string) => date != null ? dayjs.utc(date).local().toDate() : undefined,
+  convertUtcString: (date?: Date | dayjs.Dayjs | string) => date != null ? dayjs(date).utc().toLocaleString() : undefined,
+  convertUtcDate: (date?: Date | dayjs.Dayjs | string) => date != null ? dayjs(date).utc().toDate() : undefined,
 }
 
 export const getDateFromPeriod = (filters: CardFiltersPayload) => {
@@ -106,3 +101,23 @@ export const getBooleanQuery = (query: string | null | undefined) => {
   }
   return query === 'true'
 }
+
+export const getArrayQuery = (query: string | null | undefined) => {
+  if (query == null) return []
+  try {
+    const parsed = JSON.parse(query)
+    if (Array.isArray(parsed)) {
+      return parsed
+    } else {
+      return []
+    }
+  } catch (e) {
+    return []
+  }
+}
+
+export const convertLocalToUtc = (date: string | undefined) => {
+  return date ? dayjs.utc(date).local().toLocaleString() : undefined
+}
+
+export const twExclude = (twClass: string, excludedClass: string[]) => excludedClass.reduce((prev, curr) => prev.replace(curr, ''), twClass)

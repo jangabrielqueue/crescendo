@@ -1,4 +1,4 @@
-import useOperatorApi, { PlatformListModel } from './api'
+import usePlatformApi, { PlatformListModel } from './api'
 import Filters from './Filters'
 import { Button, Dialog, DialogPanel, Divider, Icon, Text } from '@tremor/react'
 import DataTable from '@components/DataTable'
@@ -13,13 +13,13 @@ import { WinLoseContext } from '../context'
 import { CurrencyDollarIcon, PuzzlePieceIcon, UsersIcon } from '@heroicons/react/16/solid'
 
 const PlatformTab = () => {
-  const { data, mutate, isLoading } = useOperatorApi()
+  const { data, mutate, isLoading } = usePlatformApi()
   const { showError } = useSnackbar()
   const [detailFormat, setDetailFormat] = useState<Record<number, (typeof detailFormats[number])[]>>({})
   const [detailDialog, setDetailDialog] = useState<DetailDialog>()
   const [filter] = useContext(WinLoseContext)
   const [prevFilter, setPrevFilter] = useState(filter)
-  const hasNoData = data == null || data.value?.length === 0
+  const hasNoData = data.length === 0
 
   const columns: Array<TableColumns<PlatformListModel>> = [
     { headerName: 'Platform', field: 'platform' },
@@ -130,9 +130,9 @@ const PlatformTab = () => {
   }
 
   const getCsv = (fileName: string) => {
-    if (data?.value != null) {
+    if (data.length === 0) {
       GetObjectAsCsv({
-        object: data.value,
+        object: data,
         fields: [
           { label: 'Platform', value: 'platform' },
           { label: 'Member Count', value: 'noOfPlayer' },
@@ -165,7 +165,7 @@ const PlatformTab = () => {
       <Filters disableCsv={hasNoData} search={handleSearch} getCsv={getCsv} />
       <Divider />
       <DataTable
-        data={data?.value || []}
+        data={data}
         columns={columns}
         loading={isLoading}
         expandable={{

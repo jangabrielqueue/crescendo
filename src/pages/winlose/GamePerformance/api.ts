@@ -1,5 +1,5 @@
 import { errorMessage } from '@utils/api'
-import { mutateGetFetcherWithParams } from '@utils/middleware'
+import { mutateGetFetcherWithParams } from '@utils/newMiddleware'
 import useSWRMutation from 'swr/mutation'
 
 export type FilterDateTypeEntry = 'None' | 'Daily' | 'Weekly' | 'Monthly' | 'Currency' | 'Member';

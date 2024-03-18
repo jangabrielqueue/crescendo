@@ -1,5 +1,5 @@
 import { errorMessage } from '@utils/api'
-import { mutateGetFetcherWithParams } from '@utils/middleware'
+import { mutateGetFetcherWithParams } from '@utils/newMiddleware'
 import useSWRMutation from 'swr/mutation'
 
 export interface WinLoseModel {
@@ -27,7 +27,7 @@ const useWinLoseApi = () => {
     errorMessage: errorMessage.DefaultRequestErrorMessage
   }, mutateGetFetcherWithParams<WinLoseModel[]>)
 
-  return { data, isLoading: isMutating, mutate: trigger }
+  return { data: data || [], isLoading: isMutating, mutate: trigger }
 }
 
 export default useWinLoseApi

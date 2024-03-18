@@ -28,7 +28,7 @@ const GameHistory = () => {
     {
       field: 'roundId',
       headerName: 'Row Number',
-      renderCell: ({ index }) => getPagedItemNumber(data?.value, index)
+      renderCell: ({ index }) => getPagedItemNumber(data, index)
     },
     { field: 'roundId', headerName: 'Round Id' },
     { field: 'gameTransactionId', headerName: 'TXN ID' },
@@ -45,9 +45,11 @@ const GameHistory = () => {
     { field: 'platformTypeString', headerName: 'Platform' },
     {
       field: 'action',
-      headerName: '',
+      headerName: 'Details',
       renderCell: ({ row }) => (
-        <Button icon={MagnifyingGlassIcon} onClick={() => handleViewResult(row)} />
+        <div className='flex justify-center'>
+          <Button size='xs' icon={MagnifyingGlassIcon} onClick={() => handleViewResult(row)} />
+        </div>
       )
     },
   ]
@@ -55,10 +57,10 @@ const GameHistory = () => {
 
   return (
     <>
-      <Filters trigger={trigger} getCsv={getCsv} disableCsv={!(data?.value?.items && data?.value?.items.length > 0)} />
+      <Filters trigger={trigger} getCsv={getCsv} disableCsv={!(data?.items && data?.items.length > 0)} />
       <Card>
         <DataTable
-          data={data?.value?.items ?? []}
+          data={data?.items ?? []}
           columns={columns}
           loading={isLoading}
         />

@@ -9,9 +9,9 @@ const domainEnum = {
 
 export type Domain = ObjectValues<typeof domainEnum>
 
-export const DomainContext = createContext<[Domain | null | undefined, (val: Domain | null) => void]>([null, () => { }])
+export const DomainContext = createContext<[Domain, (val: Domain) => void]>(['crescendo', () => { }])
 
 export const DomainProvider = ({ children }: { children: React.ReactNode }) => {
-  const domainkey = useLocalStorage<Domain | null>('domainkey', null)
+  const domainkey = useLocalStorage<Domain>('domainkey', 'crescendo')
   return <DomainContext.Provider value={domainkey}>{children}</DomainContext.Provider>
 }

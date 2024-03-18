@@ -2,7 +2,7 @@ import useSnackbar from '@hooks/useSnackbar'
 import { errorMessage } from '@utils/api'
 import { GetObjectAsCsv } from '@utils/index'
 import { PagedData } from '@utils/interface'
-import { mutateGetFetcherWithParams } from '@utils/middleware'
+import { mutateGetFetcherWithParams } from '@utils/newMiddleware'
 import useSWRMutation from 'swr/mutation'
 
 export interface GameHistoryModel {
@@ -93,9 +93,9 @@ const useGameHistoryApi = () => {
   }, mutateGetFetcherWithParams<GameHistoryData>)
 
   const getCsv = (fileName: string) => {
-    if (data?.value != null) {
+    if (data != null) {
       GetObjectAsCsv({
-        object: data.value.items,
+        object: data.items,
         fields: [
           { value: 'gameTransactionId', label: 'TXN ID' },
           { value: 'userName', label: 'Member Name' },

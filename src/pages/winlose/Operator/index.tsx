@@ -19,7 +19,7 @@ const OperatorTab = () => {
   const [detailDialog, setDetailDialog] = useState<DetailDialog>()
   const [filter] = useContext(WinLoseContext)
   const [prevFilter, setPrevFilter] = useState(filter)
-  const hasNoData = data == null || data.value?.length === 0
+  const hasNoData = data.length === 0
 
   const columns: Array<TableColumns<ByMerchantModel>> = [
     { headerName: 'Operator', field: 'operatorTag' },
@@ -132,9 +132,9 @@ const OperatorTab = () => {
   }
 
   const getCsv = (fileName: string) => {
-    if (data?.value != null) {
+    if (!hasNoData) {
       GetObjectAsCsv({
-        object: data.value,
+        object: data,
         fields: [
           { label: 'Operator', value: 'operatorTag' },
           { label: 'Member Count', value: 'noOfPlayer' },
@@ -167,7 +167,7 @@ const OperatorTab = () => {
       <Filters disableCsv={hasNoData} search={handleSearch} getCsv={getCsv} />
       <Divider />
       <DataTable
-        data={data?.value || []}
+        data={data}
         columns={columns}
         loading={isLoading}
         expandable={{

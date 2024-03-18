@@ -39,7 +39,7 @@ const MemberList = () => {
         const startDate = dayjs().subtract(1, 'day').toISOString()
         const endDate = dayjs()
         return (
-          <div className='flex gap-2'>
+          <div className='flex gap-2 justify-center'>
             <Button
               variant='light'
               icon={ClipboardDocumentListIcon}
@@ -70,7 +70,7 @@ const MemberList = () => {
           <DataTable
             columns={columns}
             loading={isLoading}
-            data={data?.value?.items ?? []}
+            data={data?.items ?? []}
           />
         </Card>
       </div>

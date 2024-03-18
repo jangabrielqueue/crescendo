@@ -1,11 +1,11 @@
 import { isNullOrWhiteSpace } from '@utils/index'
 import { useSearchParams } from 'react-router-dom'
 
-type Data<T extends string> = {
+export type QueryData<T extends string> = {
   [Property in T]: string
 }
 
-const useQueryState = <T extends string,>(names: readonly T[]): [Data<T>, (name: T, value: string | undefined) => void] => {
+const useQueryState = <T extends string,>(names: readonly T[]): [QueryData<T>, (name: T, value: string | undefined) => void] => {
   const [query, setQuery] = useSearchParams()
 
   const handleSetter = (name: T, value: string | undefined) => {
@@ -28,7 +28,7 @@ const useQueryState = <T extends string,>(names: readonly T[]): [Data<T>, (name:
       }
     }
     return prev
-  }, {} as Data<T>)
+  }, {} as QueryData<T>)
 
   return [data, handleSetter]
 }

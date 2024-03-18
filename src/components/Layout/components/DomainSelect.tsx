@@ -1,27 +1,17 @@
-import InputSelect, { Option } from '@components/Form/InputSelect'
+import InputSelect from '@components/Form/InputSelect'
+import { Value } from '@components/Form/interface'
 import { Domain, DomainContext } from '@context/DomainContext'
 import { useContext } from 'react'
 
-const domainOption: Option<Domain>[] = [
-  {
-    text: 'GPI',
-    value: 'gpi'
-  },
-  {
-    text: 'Crescendo',
-    value: 'crescendo'
-  }
-] as const
-
 const DomainSelect = () => {
   const [domainkey, setDomainkey] = useContext(DomainContext)
-  const handleChange = (val: Domain | undefined) => {
-    setDomainkey(val || null)
+  const handleChange = (val: Value | undefined) => {
+    setDomainkey(val as Domain)
   }
   return (
     <InputSelect
       value={domainkey ?? 'crescendo'}
-      options={domainOption}
+      option='domainOptions'
       onChange={handleChange}
     />
   )

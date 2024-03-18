@@ -3,14 +3,14 @@ import { ComplexPaged } from '@utils/interface'
 
 type ComplexPaginationProps = {
 	onPageChange: (newCursor: number) => void
-} & ComplexPaged
+} & Partial<ComplexPaged>
 
 const styles = {
-	button: 'rounded-full border-color text-tremor-content dark:text-dark-tremor-content'
+	button: 'border-color text-tremor-content dark:text-dark-tremor-content bg-background hover:bg-tremor-background-muted dark:hover:bg-dark-tremor-background-muted py-2 px-4'
 }
 
 const ComplexPagination = ({ cursor, noMoreData, onPageChange }: ComplexPaginationProps): JSX.Element | null => {
-	if (cursor === 1 && noMoreData) return null
+	if (cursor === 1 && noMoreData || cursor == null) return null
 	const handlePageChange = (type: 1 | 'prev' | 'next') => {
 		let newCursor = cursor
 		if (type === 1) {
@@ -23,28 +23,27 @@ const ComplexPagination = ({ cursor, noMoreData, onPageChange }: ComplexPaginati
 		onPageChange(newCursor)
 	}
 	return (
-
-		<Grid className='gap-2 my-2' numItems={2}>
+		<Grid className='gap-2' numItems={2}>
 			<Button
-				className={styles.button}
-				variant='secondary'
+				className={styles.button + ' rounded-2xl border'}
+				variant='light'
 				disabled={cursor === 1}
 				onClick={() => handlePageChange(1)}
 			>
 				First
 			</Button>
-			<Flex justifyContent='center'>
+			<Flex justifyContent='center' className='rounded-2xl border border-color overflow-hidden'>
 				<Button
-					className={`${styles.button} rounded-r-none`}
-					variant='secondary'
+					className={styles.button + ' border-r'}
+					variant='light'
 					disabled={cursor === 1}
 					onClick={() => handlePageChange('prev')}
 				>
 					prev
 				</Button>
 				<Button
-					className={`${styles.button} rounded-l-none`}
-					variant='secondary'
+					className={styles.button + ' border-l'}
+					variant='light'
 					disabled={noMoreData}
 					onClick={() => handlePageChange('next')}
 				>
