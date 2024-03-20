@@ -5,7 +5,7 @@ import { TableColumns } from '@components/DataTable/interface'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useNavigate } from 'react-router-dom'
-import { Button, Card } from '@tremor/react'
+import { Button, Divider } from '@tremor/react'
 import { ChartBarIcon, ClipboardDocumentListIcon } from '@heroicons/react/16/solid'
 dayjs.extend(relativeTime)
 
@@ -65,14 +65,13 @@ const MemberList = () => {
   return (
     <>
       <Filters mutate={mutate} />
-      <div className='m-2'>
-        <Card>
-          <DataTable
-            columns={columns}
-            loading={isLoading}
-            data={data?.items ?? []}
-          />
-        </Card>
+      <Divider />
+      <div className='my-2'>
+        <DataTable
+          columns={columns}
+          loading={isLoading}
+          data={data?.items ?? []}
+        />
       </div>
 
     </>

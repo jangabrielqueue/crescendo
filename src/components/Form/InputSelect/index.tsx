@@ -2,6 +2,7 @@ import { Select, SelectItem } from '@tremor/react'
 import Label from '../Label'
 import { Value } from '../interface'
 import useFilters, { FilterKeys } from '@hooks/useFilters'
+import { twMerge } from 'tailwind-merge'
 
 interface InputSelectProps {
   option: FilterKeys
@@ -11,6 +12,7 @@ interface InputSelectProps {
   enableClear?: boolean
   label?: string
   error?: boolean
+  className?: string
 }
 const InputSelect = ({
   option,
@@ -19,7 +21,8 @@ const InputSelect = ({
   value,
   enableClear = false,
   label,
-  error
+  error,
+  className
 }: InputSelectProps) => {
   const filters = useFilters()
   const options = filters[option] || []
@@ -31,7 +34,7 @@ const InputSelect = ({
     <>
       {label && <Label>{label}</Label>}
       <Select
-        className={error ? '*:border-red-500' : ''}
+        className={twMerge(error ? '*:border-red-500' : '', className)}
         value={String(value)}
         placeholder={placeholder}
         onValueChange={handleValueChange}

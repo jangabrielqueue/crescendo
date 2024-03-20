@@ -1,7 +1,7 @@
 import DataTable from '@components/DataTable'
 import useTournamentApi, { TournamentModel } from './api'
 import { TableColumns } from '@components/DataTable/interface'
-import { Button, Card, Dialog, DialogPanel, Icon } from '@tremor/react'
+import { Button, Dialog, DialogPanel, Divider, Icon } from '@tremor/react'
 import { UserGroupIcon } from '@heroicons/react/16/solid'
 import { useState } from 'react'
 import Leaderboards from './components/Leaderboards'
@@ -57,15 +57,13 @@ const Tournament = () => {
   return (
     <>
       <Filters query={query} setQuery={setQuery} onSearch={handleSearch} disableCsv={hasNoData} getCsv={getCsv} />
-      <div className='m-2'>
-        <Card>
-          <DataTable
-            data={data?.items || []}
-            columns={columns}
-            loading={isLoading}
-          />
-        </Card>
-      </div>
+      <Divider />
+      <DataTable
+        tableClassName='my-2'
+        data={data?.items || []}
+        columns={columns}
+        loading={isLoading}
+      />
       <Dialog open={Boolean(tournament)} onClose={() => setTournament(undefined)}>
         <DialogPanel className='max-w-none w-fit'>
           {tournament &&

@@ -64,7 +64,7 @@ const Filters = ({ trigger, getCsv, disableCsv }: { trigger: (obj: object) => vo
   }
   return (
     <>
-      <div className='grid grid-cols-2 max-sm:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-6 grid-rows-none gap-4 m-3'>
+      <div className='grid grid-cols-2 max-sm:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-6 grid-rows-none gap-4 my-6'>
         <TextInput
 
           value={filters.MemberName}
@@ -104,7 +104,7 @@ const Filters = ({ trigger, getCsv, disableCsv }: { trigger: (obj: object) => vo
           placeholder='Platform'
         />
       </div>
-      <div className='flex gap-3 m-3'>
+      <div className='flex gap-3 my-6'>
         <DateRangePicker
           className='col-span-2'
           defaultValue={{

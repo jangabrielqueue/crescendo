@@ -16,9 +16,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 		setDarkmode((prevMode) => !prevMode)
 	}
 	return (
-		<div className={'relative h-full'}>
+		<div className={'relative h-full flex flex-col items-center'}>
 			<Navbar toggle={toggleDarkMode} isDarkmode={darkmode} />
-			{children}
+			<div className='max-w-7xl w-full'>
+				{children}
+
+			</div>
 			<Divider><div className='flex items-center text-xs'><img className='h-6' src={GreyLogo} alt='Logo' /> ©2023 All rights reserved</div></Divider>
 		</div>
 	)

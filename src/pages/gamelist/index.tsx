@@ -1,7 +1,7 @@
 import DataTable from '@components/DataTable'
 import { TableColumns } from '@components/DataTable/interface'
 import useSnackbar from '@hooks/useSnackbar'
-import { Button, Card, Switch } from '@tremor/react'
+import { Button, Switch } from '@tremor/react'
 import { useNavigate } from 'react-router-dom'
 import useGameListApi, { GameListModel } from './api'
 import useOnMountEffect from '@hooks/useOnMountEffect'
@@ -44,21 +44,20 @@ const GameList = () => {
       field: 'action',
       renderCell: ({ row }) => {
         return (
-          <Button onClick={() => handleConfigure(row.gameName)}>Configure</Button>
+          <div className='flex justify-center'>
+            <Button onClick={() => handleConfigure(row.gameName)}>Configure</Button>
+          </div>
         )
       }
     }
   ]
   return (
-    <div className='m-2'>
-      <Card className='p-0'>
-        <DataTable
-          data={data ?? []}
-          loading={isLoading}
-          columns={columns}
-        />
-      </Card>
-    </div>
+    <DataTable
+      tableClassName='my-6'
+      data={data ?? []}
+      loading={isLoading}
+      columns={columns}
+    />
   )
 }
 

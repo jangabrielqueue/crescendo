@@ -20,7 +20,7 @@ import { useStateChangeEffect } from '@hooks/useStateChangeEffect'
 
 // styles
 const styles = {
-	table: 'border rounded-md relative *:border-separate *:border-spacing-0 border-color', /*  */
+	table: 'w-full *:border-separate *:border-spacing-0 relative',
 	stickyAction: 'sticky right-0 bg-tremor-background dark:bg-dark-tremor-background border-l text-center border-color',
 	stickyActionCell: 'sticky right-0 bg-tremor-background dark:bg-dark-tremor-background border-l pl-4 border-color',
 	cell: 'group-hover:bg-tremor-background-subtle dark:group-hover:bg-dark-tremor-background-muted border-b border-color',

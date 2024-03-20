@@ -9,7 +9,7 @@ const Logo = () => {
 			onClick={() => navigate('/')}
 		>
 			<img className='h-8' src={LogoIcon} alt='Logo' />
-			<p className='text-tremor-brand-inverted font-semibold text-lg'>Slots Back Office</p>
+			<p className='text-tremor-title font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong'>Slots Back Office</p>
 		</div>
 	)
 }

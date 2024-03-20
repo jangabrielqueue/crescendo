@@ -2,6 +2,7 @@ import { MultiSelect, MultiSelectItem } from '@tremor/react'
 import Label from '../Label'
 import useFilters, { FilterKeys } from '@hooks/useFilters'
 import { Value } from '../interface'
+import { twMerge } from 'tailwind-merge'
 
 interface InputMultiSelectProps {
   option: FilterKeys
@@ -10,6 +11,7 @@ interface InputMultiSelectProps {
   value: Value[]
   label?: string
   error?: boolean
+  className?: string
 }
 
 const InputMultiSelect = ({
@@ -18,7 +20,8 @@ const InputMultiSelect = ({
   placeholder = 'Select...',
   value,
   label,
-  error
+  error,
+  className
 }: InputMultiSelectProps) => {
   const newVal = value.map((val) => String(val))
   const filters = useFilters()
@@ -31,7 +34,7 @@ const InputMultiSelect = ({
     <>
       {label && <Label>{label}</Label>}
       <MultiSelect
-        className={error ? '*:border-red-500' : ''}
+        className={twMerge(error ? '*:border-red-500' : '', className)}
         value={newVal}
         placeholder={placeholder}
         onValueChange={handleValueChange}

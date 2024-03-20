@@ -37,7 +37,7 @@ const Filters = ({
   }
 
   return (
-    <div className='grid grid-cols-12 max-md:grid-cols-1 md:grid-cols-3 lg:grid-cols-6 grid-rows-none gap-4 m-3'>
+    <div className='grid grid-cols-12 max-md:grid-cols-1 md:grid-cols-3 lg:grid-cols-6 grid-rows-none gap-4 my-6'>
       <InputMultiSelect
         option='operators'
         value={getArrayQuery(filters.operatorIds)}
@@ -70,8 +70,6 @@ const Filters = ({
           disableCsv={disableCsv}
         />
       </div>
-
-
     </div>
   )
 }

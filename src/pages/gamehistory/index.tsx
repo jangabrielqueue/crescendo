@@ -3,7 +3,7 @@ import useGameHistoryApi, { GameHistoryModel } from './api'
 import Filters from './components/Filters'
 import { TableColumns } from '@components/DataTable/interface'
 import { convertToGmt, getPagedItemNumber } from '@utils/index'
-import { Button, Card, Dialog, DialogPanel } from '@tremor/react'
+import { Button, Dialog, DialogPanel, Divider } from '@tremor/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid'
 import { useRef, useState } from 'react'
 import config from '@utils/env'
@@ -58,13 +58,12 @@ const GameHistory = () => {
   return (
     <>
       <Filters trigger={trigger} getCsv={getCsv} disableCsv={!(data?.items && data?.items.length > 0)} />
-      <Card>
-        <DataTable
-          data={data?.items ?? []}
-          columns={columns}
-          loading={isLoading}
-        />
-      </Card>
+      <Divider />
+      <DataTable
+        data={data?.items ?? []}
+        columns={columns}
+        loading={isLoading}
+      />
       <Dialog open={Boolean(iframeUrl)} onClose={() => setIframeUrl(undefined)} unmount>
         <DialogPanel className='max-w-4xl'>
           <iframe

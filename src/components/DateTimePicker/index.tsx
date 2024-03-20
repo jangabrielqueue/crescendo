@@ -8,8 +8,9 @@ interface DateTimePickerProps {
   value: Date | undefined
   onChange: (val: Date | undefined) => void
   minDate?: Date | undefined
+  className?: string
 }
-const DateTimePicker = ({ onChange, value, minDate }: DateTimePickerProps) => {
+const DateTimePicker = ({ onChange, value, minDate, className }: DateTimePickerProps) => {
   const refInput = useRef<HTMLInputElement>(null)
   const timeValue = dayjs(value).format('HH:mm:ss')
 
@@ -31,6 +32,7 @@ const DateTimePicker = ({ onChange, value, minDate }: DateTimePickerProps) => {
   return (
     <div className='relative'>
       <DatePicker
+        className={className}
         displayFormat='MMMM dd, yyyy hh:mm:ss'
         enableClear={false}
         onValueChange={handleDateChange}

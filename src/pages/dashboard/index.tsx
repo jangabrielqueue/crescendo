@@ -13,15 +13,15 @@ const DashboardComponent = () => {
 		mutate((key: { url: string }) => key.url.startsWith('/dashboard'))
 	}
 	return (
-		<div className='w-full'>
+		<div className='w-full my-6'>
 			<Filters />
 			<button onClick={refresh}>REFRESH</button>
-			<div className='flex gap-4 p-4 '>
+			<div className='flex gap-4 py-4'>
 				<TabbedCharts />
 				<SpinByGame />
 				<TopWinners />
 			</div>
-			<div className='grid grid-flow-col grid-row-1 grid-cols-12 gap-4 p-4'>
+			<div className='grid grid-flow-col grid-row-1 grid-cols-12 gap-4 py-4'>
 				<UsersPerRegion />
 				<UsersByCurrency />
 				<UsersByBrowsers />

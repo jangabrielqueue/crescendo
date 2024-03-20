@@ -60,12 +60,13 @@ const navs: NavLinkProps[] = [
 ]
 
 const styles = {
-	active: 'text-slate-50 font-semibold',
-	navbar: 'w-full sticky top-0 z-nav shadow-tremor-card dark:shadow-dark-tremor-card',
-	switch: 'text-tremor-brand-inverted cursor-pointer active:scale-125',
-	upperNav: 'bg-tremor-brand p-3 px-6 flex items-center justify-between w-full',
-	lowerNav: 'bg-dark-tremor-background-muted p-2',
-	navList: 'flex gap-3 flex-wrap text-slate-300 text-sm'
+	active: 'text-tremor-content-strong dark:text-dark-tremor-content-strong font-semibold',
+	navbar: 'flex flex-col items-center w-full sticky top-0 z-nav shadow-tremor-card backdrop-blur-lg dark:shadow-dark-tremor-dropdown',
+	switch: 'text-tremor-content-strong dark:text-dark-tremor-content-strong cursor-pointer active:scale-125',
+	upperNav: 'py-5 flex justify-center w-full border-b border-color bg-transparent',
+	upperNavContent: 'flex items-center justify-between w-full max-w-7xl',
+	lowerNav: 'py-3 w-full max-w-4xl bg-transparent',
+	navList: 'flex gap-3 justify-between max-md:justify-start flex-wrap text-tremor-content text-sm'
 }
 
 const SwitchIcon = ({ toggle, checked }: { toggle: () => void, checked: boolean }) => {
@@ -86,12 +87,15 @@ const Navbar = ({ toggle, isDarkmode }: NavbarProps) => {
 	return (
 		<nav className={styles.navbar}>
 			<div className={styles.upperNav}>
-				<Logo />
-				{/* <DomainSelect /> */}
-				<div className='flex gap-4 items-center'>
-					<SwitchIcon toggle={toggle} checked={isDarkmode} />
-					<AccountDropdown />
+				<div className={styles.upperNavContent}>
+					<Logo />
+					{/* <DomainSelect /> */}
+					<div className='flex gap-4 items-center'>
+						<SwitchIcon toggle={toggle} checked={isDarkmode} />
+						<AccountDropdown />
+					</div>
 				</div>
+
 			</div>
 			<div className={styles.lowerNav}>
 				<ul className={styles.navList}>

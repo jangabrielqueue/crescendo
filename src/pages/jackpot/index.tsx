@@ -4,7 +4,7 @@ import DataTable from '@components/DataTable'
 import { TableColumns } from '@components/DataTable/interface'
 import PoolTable from './PoolTable'
 import dayjs from 'dayjs'
-import { Button, Card, Dialog, DialogPanel, Text } from '@tremor/react'
+import { Button, Dialog, DialogPanel, Divider, Text } from '@tremor/react'
 import { twMerge } from 'tailwind-merge'
 import { GetObjectAsCsv, twExclude } from '@utils/index'
 import { useNavigate } from 'react-router-dom'
@@ -172,8 +172,8 @@ const Jackpot = () => {
 
   return (
     <>
-      <div className='m-4'>
-        <div className='flex gap-2 justify-end my-4'>
+      <div className='my-6'>
+        <div className='flex justify-center'>
           <div className={styles.buttonGroup}>
             <Button
               variant='light'
@@ -199,32 +199,33 @@ const Jackpot = () => {
               Add
             </Button>
           </div>
+        </div>
+        <Divider />
+        <div className='flex gap-2 justify-end my-4'>
           <ComplexPagination onPageChange={handlePageChange} {...data} />
         </div>
-        <Card className='p-0'>
-          <DataTable
-            data={data?.items || []}
-            columns={columns}
-            loading={isMutating}
-            headerCellsClassName='sticky top-0 z-10 border-color border-b bg-background'
-            tableClassName='max-h-[80vh] overflow-auto'
-            expandable={{
-              render({ records }) {
-                return (
-                  <div className='py-6 px-10 border-b border-color bg-tremor-background-muted dark:bg-dark-tremor-background-muted'>
-                    <DataTable
-                      tableClassName='bg-tremor-background dark:bg-dark-tremor-background'
-                      headerCellsClassName='border-color border-b text-center'
-                      data={[records]}
-                      columns={exapandedDataColumns}
-                    />
-                  </div>
-                )
-              },
-              expandOnRowClick: true
-            }}
-          />
-        </Card>
+        <DataTable
+          data={data?.items || []}
+          columns={columns}
+          loading={isMutating}
+          headerCellsClassName='sticky top-0 z-10 border-color border-b bg-background'
+          tableClassName='max-h-[80vh] overflow-auto'
+          expandable={{
+            render({ records }) {
+              return (
+                <div className='py-6 px-10 border-b border-color bg-tremor-background-muted dark:bg-dark-tremor-background-muted'>
+                  <DataTable
+                    tableClassName='bg-tremor-background dark:bg-dark-tremor-background'
+                    headerCellsClassName='border-color border-b text-center'
+                    data={[records]}
+                    columns={exapandedDataColumns}
+                  />
+                </div>
+              )
+            },
+            expandOnRowClick: true
+          }}
+        />
       </div>
       <Dialog static open={detail != null} onClose={() => setDetail(undefined)}>
         <DialogPanel>

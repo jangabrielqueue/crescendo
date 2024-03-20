@@ -7,8 +7,8 @@ import config from '@utils/env'
 
 const styles = {
 	dropdownContainer: 'flex items-center gap-2 cursor-pointer',
-	avatar: 'w-8 h-8 rounded-full bg-tremor-background text-center leading-8 font-semibold text-lg text-tremor-content-emphasis',
-	userContainer: 'flex flex-col text-tremor-brand-inverted items-start',
+	avatar: 'w-8 h-8 rounded-full bg-dark-tremor-background dark:bg-tremor-background text-center leading-8 font-semibold text-lg dark:text-tremor-content-strong text-dark-tremor-content-strong',
+	userContainer: 'flex flex-col text-tremor-content-strong dark:text-dark-tremor-content-strong items-start',
 	listItem: 'hover:bg-tremor-background-muted dark:hover:bg-dark-tremor-background-muted p-2 rounded-md cursor-pointer justify-start gap-2 text-lg',
 	dropdownPanel: 'absolute top-11 right-0',
 	dropdownPanelContainer: 'rounded-md shadow-md w-40',

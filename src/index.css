@@ -18,7 +18,7 @@
 }
 
 body {
-  @apply bg-tremor-background-subtle dark:bg-dark-tremor-background-subtle
+  @apply bg-tremor-background dark:bg-dark-tremor-background
 }
 
 @layer utilities {

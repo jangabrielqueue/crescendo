@@ -26,7 +26,7 @@ const Filters = ({ mutate }: { mutate: (object: object) => void }) => {
     }
   })
   return (
-    <div className='grid grid-cols-12 max-sm:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-6 grid-rows-none gap-4 m-3'>
+    <div className='grid grid-cols-12 max-sm:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-6 grid-rows-none gap-4 my-6'>
       <TextInput
         value={filters.MemberId}
         onValueChange={(val) => setFilters('MemberId', val)}

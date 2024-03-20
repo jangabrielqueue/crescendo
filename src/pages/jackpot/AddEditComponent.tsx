@@ -31,6 +31,9 @@ interface AddEditProps {
   onSearch: () => void
 }
 
+const styles = {
+  label: 'text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong'
+}
 const defaultPostData = {
   jackpotName: '',
   gameId: '',
@@ -146,27 +149,32 @@ const AddEditComponent = ({ onCancel, onSearch, detail: pDetail }: AddEditProps)
   return (
     <>
       <div className='flex flex-col gap-4'>
-        <h1 className='text-tremor-title'>{isEdit ? 'Edit' : 'Create'} Jackpot</h1>
+        <h1 className='text-tremor-title font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong'>{isEdit ? 'Edit' : 'Create'} Jackpot</h1>
         {!isEdit &&
           <>
             <div>
-              <label className='text-tremor-default'>Jackpot Name</label>
+              <label className={styles.label}>Jackpot Name</label>
               <TextInput
+                className='mt-2'
                 value={postData.jackpotName}
                 onValueChange={(val) => handleInputChange('jackpotName', val)}
+                placeholder='Jackpot Name'
               />
             </div>
             <div>
-              <label className='text-tremor-default'>Game</label>
+              <label className={styles.label}>Game</label>
               <InputSelect
+                className='mt-2'
                 option='games'
+                placeholder='Select Game'
                 value={postData.gameId}
                 onChange={(val) => handleInputChange('gameId', val)}
               />
             </div>
             <div>
-              <label className='text-tremor-default'>Start On</label>
+              <label className={styles.label}>Start On</label>
               <DateTimePicker
+                className='mt-2'
                 value={postData.startedOn}
                 onChange={(date) => handleDateChange('startedOn', date)}
               />
@@ -174,40 +182,46 @@ const AddEditComponent = ({ onCancel, onSearch, detail: pDetail }: AddEditProps)
           </>
         }
         <div>
-          <label className='text-tremor-default'>End On</label>
+          <label className={styles.label}>End On</label>
           <DateTimePicker
+            className='mt-2'
             value={postData.endOn}
             onChange={(date) => handleDateChange('endOn', date)}
             minDate={postData.startedOn || datetime.convertLocalDate(pDetail?.startedOnUtc)}
           />
         </div>
         <div>
-          <label className='text-tremor-default'>Eligible Operators</label>
+          <label className={styles.label}>Eligible Operators</label>
           <InputMultiSelect
+            className='mt-2'
             option='operators'
+            placeholder='Select Operators...'
             value={postData.eligibleOperators || []}
             onChange={(val) => handleInputChange('eligibleOperators', val)}
           />
         </div>
         <div>
-          <label className='text-tremor-default'>Eligible Currencies</label>
+          <label className={styles.label}>Eligible Currencies</label>
           <InputMultiSelect
+            className='mt-2'
             option='currencies'
+            placeholder='Select Currencies...'
             value={postData.eligibleCurrencies || []}
             onChange={(val) => handleInputChange('eligibleCurrencies', val)}
           />
         </div>
         <form onSubmit={handleAddPlayers}>
-          <label>Banned Players</label>
+          <label className={styles.label}>Banned Players</label>
           <div className='flex'>
             <TextInput
-              className='rounded-r-none'
+              className='rounded-r-none mt-2'
               value={bannedPlayerInput}
               onValueChange={(val) => setBannedPlayerInput(val)}
               onPaste={handlePasteBannedPlayers}
               onKeyDown={handleKeyDownBannedPlayers}
+              placeholder='Player...'
             />
-            <button type='submit' className='rounded-lg rounded-l-none border border-color px-4 shadow-tremor-input'>+</button>
+            <button type='submit' className='rounded-lg rounded-l-none border border-color px-4 shadow-tremor-input mt-2'>+</button>
           </div>
         </form>
         <div className='flex gap-1 flex-wrap'>
@@ -215,7 +229,7 @@ const AddEditComponent = ({ onCancel, onSearch, detail: pDetail }: AddEditProps)
             <div
               key={idx}
               onClick={() => setPostData(prev => ({ ...prev, bannedPlayers: [...(prev.bannedPlayers || []).filter(val => player !== val)] }))}
-              className='flex gap-2 justify-between items-center border border-color p-2 py-1.5 rounded-2xl shadow-tremor-card cursor-pointer'
+              className='flex gap-2 justify-between items-center border border-color px-2.5 py-1 rounded-full shadow-tremor-card cursor-pointer'
             >
               {player} <Icon color='gray' icon={XCircleIcon} className='p-0 m-0' />
             </div>
