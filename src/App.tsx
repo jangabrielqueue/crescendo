@@ -21,11 +21,12 @@ import Dashboard from '@pages/dashboard'
 import MemberList from '@pages/memberlist'
 import GameHistory from '@pages/gamehistory'
 import WinLose from '@pages/winlose'
-import Test from '@pages/test'
 import Tournament from '@pages/tournament'
 import Jackpot from '@pages/jackpot'
 import JackpotContributions from '@pages/jackpot/contributions'
 import JackpotWinners from '@pages/jackpot/winners'
+import ModalProvider from '@context/ModalContext'
+import GameServices from '@pages/gameservices'
 
 
 const router = createBrowserRouter([
@@ -79,7 +80,7 @@ const router = createBrowserRouter([
 	},
 	{
 		path: '/gameservices',
-		element: <AuthLayout><Test /></AuthLayout>
+		element: <AuthLayout><GameServices /></AuthLayout>
 	},
 	{
 		path: '*',
@@ -102,8 +103,10 @@ const App = () => {
 			<DomainProvider>
 				<AuthProvider>
 					<SnackbarProvider>
-						<SWRConfigProvider >
-							<RouterProvider router={router} />
+						<SWRConfigProvider>
+							<ModalProvider>
+								<RouterProvider router={router} />
+							</ModalProvider>
 						</SWRConfigProvider>
 					</SnackbarProvider>
 				</AuthProvider>

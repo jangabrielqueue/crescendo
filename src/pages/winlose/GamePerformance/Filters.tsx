@@ -6,7 +6,7 @@ import SearchWithCsv from '@components/SearchWithCsv'
 import { datetime, getBooleanQuery } from '@utils/index'
 import { FilterProps } from '../interface'
 
-const Filters = ({ disableCsv, search, getCsv }: FilterProps) => {
+const Filters = ({ disableCsv, search, getCsv, searchLoading }: FilterProps) => {
   const [gamePerformance, setQuery] = useContext(WinLoseContext)
 
   const handleDateChange = ({ from, to }: { from?: Date, to?: Date }) => {
@@ -60,7 +60,7 @@ const Filters = ({ disableCsv, search, getCsv }: FilterProps) => {
         />
       </div>
       <div className='flex justify-center'>
-        <SearchWithCsv onCsv={handleCsv} onSearch={handleSearch} disableCsv={disableCsv} />
+        <SearchWithCsv onCsv={handleCsv} onSearch={handleSearch} searchLoading={searchLoading} disableCsv={disableCsv} />
       </div>
     </>
   )

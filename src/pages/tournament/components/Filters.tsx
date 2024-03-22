@@ -12,6 +12,7 @@ interface FilterProps {
   onSearch: () => void
   disableCsv: boolean
   getCsv: (str: string) => void
+  searchLoading: boolean
 }
 
 const Filters = ({
@@ -19,7 +20,8 @@ const Filters = ({
   setQuery: setFilters,
   onSearch,
   disableCsv,
-  getCsv
+  getCsv,
+  searchLoading
 }: FilterProps) => {
   const [prevQuery, setPrevQuery] = useState(filters)
 
@@ -65,6 +67,7 @@ const Filters = ({
       />
       <div className='lg:col-span-12 md:col-span-3 max-md:col-span-1 flex justify-center'>
         <SearchWithCsv
+          searchLoading={searchLoading}
           onSearch={handleSearch}
           onCsv={handleCsv}
           disableCsv={disableCsv}

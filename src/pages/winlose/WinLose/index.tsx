@@ -1,6 +1,6 @@
 import useWinLoseApi, { WinLoseModel } from './api'
 import Filters from './Filters'
-import { Button, Dialog, DialogPanel, Divider, Icon, Text } from '@tremor/react'
+import { Button, Divider, Icon, Text } from '@tremor/react'
 import DataTable from '@components/DataTable'
 import { TableColumns } from '@components/DataTable/interface'
 import { CsvFields, GetObjectAsCsv, checkObjectKeys } from '@utils/index'
@@ -8,9 +8,10 @@ import useSnackbar from '@hooks/useSnackbar'
 import ExpandedDetail from '../components/ExpandedDetail'
 import { useContext, useState } from 'react'
 import dayjs from 'dayjs'
-import { WinLoseContext } from '../context'
+import { FiltersModel, WinLoseContext } from '../context'
 import { CurrencyDollarIcon, PuzzlePieceIcon, UsersIcon } from '@heroicons/react/16/solid'
-import { DetailDialog, DetailModel, comonDetailColumn, detailCsv, detailFormats, endpointPerFormat } from '../components/common'
+import { DetailDialog, DetailModel, ExcludedCurrencyFormats, comonDetailColumn, detailCsv, detailFormats, endpointPerFormat } from '../components/common'
+import useModal from '@hooks/useModal'
 
 const CsvFirstColumn: Record<string, CsvFields<WinLoseModel>> = {
   ['Show All']: { label: 'Date', value: 'date' },
@@ -25,8 +26,8 @@ const WinLoseTab = () => {
   const { formatFilterType = 'Show All' } = filter
   const [prevFilter, setPrevFilter] = useState(filter)
   const [detailFormat, setDetailFormat] = useState<Record<number, (typeof detailFormats[number])[]>>({})
-  const [detailDialog, setDetailDialog] = useState<DetailDialog>()
   const { showError } = useSnackbar()
+  const { setModal } = useModal()
   const hasNoData = data.length === 0
 
   const columns: Array<TableColumns<WinLoseModel>> = [
@@ -86,10 +87,18 @@ const WinLoseTab = () => {
           return (
             <div className='flex gap-1 justify-center'>
               <Button variant='light' tooltip='Members' size='xs'
-                onClick={() => setDetailDialog({
-                  format: 'Members',
-                  game: row.game,
-                  gameId: row.gameId
+                onClick={() => setModal({
+                  body: () => (
+                    <DetailsDialog
+                      detailDialog={{
+                        format: 'Members',
+                        game: row.game,
+                        gameId: row.gameId
+                      }}
+                      prevFilter={prevFilter}
+                    />
+                  ),
+                  panelClassName: 'max-w-none w-fit'
                 })}
               >
                 <Icon variant={'light'} icon={UsersIcon} />
@@ -112,19 +121,35 @@ const WinLoseTab = () => {
           return (
             <div className='flex gap-1 justify-center'>
               <Button variant='light' tooltip='View Games' size='xs'
-                onClick={() => setDetailDialog({
-                  format: 'Games',
-                  currency: row.currency,
-                  currencyId: row.currencyId
+                onClick={() => setModal({
+                  body: () => (
+                    <DetailsDialog
+                      detailDialog={{
+                        format: 'Games',
+                        currency: row.currency,
+                        currencyId: row.currencyId
+                      }}
+                      prevFilter={prevFilter}
+                    />
+                  ),
+                  panelClassName: 'max-w-none w-fit'
                 })}
               >
                 <Icon variant={'light'} icon={PuzzlePieceIcon} />
               </Button>
               <Button variant='light' tooltip='View Members' size='xs'
-                onClick={() => setDetailDialog({
-                  format: 'Members',
-                  currency: row.currency,
-                  currencyId: row.currencyId
+                onClick={() => setModal({
+                  body: () => (
+                    <DetailsDialog
+                      detailDialog={{
+                        format: 'Members',
+                        currency: row.currency,
+                        currencyId: row.currencyId
+                      }}
+                      prevFilter={prevFilter}
+                    />
+                  ),
+                  panelClassName: 'max-w-none w-fit'
                 })}
               >
                 <Icon variant={'light'} icon={UsersIcon} />
@@ -169,7 +194,7 @@ const WinLoseTab = () => {
 
   return (
     <>
-      <Filters disableCsv={hasNoData} search={handleSearch} getCsv={getCsv} />
+      <Filters searchLoading={isLoading} disableCsv={hasNoData} search={handleSearch} getCsv={getCsv} />
       <Divider />
       <DataTable
         data={data}
@@ -213,36 +238,49 @@ const WinLoseTab = () => {
           },
         }}
       />
-      <Dialog open={Boolean(detailDialog)} onClose={() => setDetailDialog(undefined)} unmount>
-        <DialogPanel className='max-w-none w-fit'>
-          {detailDialog && (
-            <ExpandedDetail
-              isDialog
-              url={endpointPerFormat[detailDialog.format]}
-              columns={detailColumns[detailDialog.format].filter((value) => typeof value === 'object' && value.field !== 'action')}
-              getText={(params) => (
-                <>
-                  <Text className='text-xl'>{detailDialog.format} For {detailDialog.currency || detailDialog.game}</Text>
-                  <Text className='font-light text-lg'>({dayjs(params.startDate).format('MMMM-DD-YYYY')} - {dayjs(params.endDate).format('MMMM-DD-YYYY')})</Text>
-                </>
-              )}
-              csvFields={detailCsv(detailDialog.format)}
-              getFileName={(params) => `Win Lose-${detailDialog.format}-For-${detailDialog.currency || detailDialog.game}(${dayjs(params.startDate).format('YYYYMMDD')}-${dayjs(params.endDate).format('YYYYMMDD')})`}
-              expander={() => setDetailDialog(undefined)}
-              params={{
-                detailFormatted: true,
-              }}
-              filterParams={{
-                ...prevFilter,
-                formatFilterType: prevFilter.formatFilterType,
-                gameId: detailDialog.gameId || prevFilter.gameId || 0,
-                currencyId: detailDialog.currencyId || prevFilter.currencyId || 0
-              }}
-            />
-          )}
-        </DialogPanel>
-      </Dialog>
     </>
+  )
+}
+
+const DetailsDialog = ({ detailDialog, prevFilter }: { detailDialog: DetailDialog, prevFilter: FiltersModel }) => {
+  const { closeModal } = useModal()
+
+  const detailColumns: Record<ExcludedCurrencyFormats, Array<TableColumns<DetailModel>>> = {
+    Games: [
+      { headerName: 'Game', field: 'game' },
+      { headerName: 'Member Count', field: 'noOfPlayer' },
+      ...comonDetailColumn
+    ],
+    Members: [
+      { headerName: 'Member Name', field: 'memberName' },
+      ...comonDetailColumn
+    ]
+  }
+
+  return (
+    <ExpandedDetail
+      isDialog
+      url={endpointPerFormat[detailDialog.format]}
+      columns={detailColumns[detailDialog.format]}
+      getText={(params) => (
+        <>
+          <Text className='text-xl'>{detailDialog.format} For {detailDialog.currency || detailDialog.game}</Text>
+          <Text className='font-light text-lg'>({dayjs(params.startDate).format('MMMM-DD-YYYY')} - {dayjs(params.endDate).format('MMMM-DD-YYYY')})</Text>
+        </>
+      )}
+      csvFields={detailCsv(detailDialog.format)}
+      getFileName={(params) => `Win Lose-${detailDialog.format}-For-${detailDialog.currency || detailDialog.game}(${dayjs(params.startDate).format('YYYYMMDD')}-${dayjs(params.endDate).format('YYYYMMDD')})`}
+      expander={closeModal}
+      params={{
+        detailFormatted: true,
+      }}
+      filterParams={{
+        ...prevFilter,
+        formatFilterType: prevFilter.formatFilterType,
+        gameId: detailDialog.gameId || prevFilter.gameId || 0,
+        currencyId: detailDialog.currencyId || prevFilter.currencyId || 0
+      }}
+    />
   )
 }
 

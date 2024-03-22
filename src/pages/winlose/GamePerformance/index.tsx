@@ -204,7 +204,7 @@ const GamePerformanceTab = () => {
 
   return (
     <>
-      <Filters disableCsv={hasNoData} search={mutate} getCsv={getCsv} />
+      <Filters searchLoading={isLoading} disableCsv={hasNoData} search={mutate} getCsv={getCsv} />
       <Divider />
       <DataTable
         data={data || []}

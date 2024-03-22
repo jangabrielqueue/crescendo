@@ -10,7 +10,14 @@ type ErrorState<T extends string> = {
   [key in T]?: boolean
 }
 
-const Filters = ({ trigger, getCsv, disableCsv }: { trigger: (obj: object) => void, getCsv: (fileName: string) => void, disableCsv: boolean }) => {
+interface FilterProps {
+  trigger: (obj: object) => void
+  getCsv: (fileName: string) => void
+  disableCsv: boolean
+  searchLoading: boolean
+}
+
+const Filters = ({ trigger, getCsv, disableCsv, searchLoading }: FilterProps) => {
   const [filters, setFilters] = useQueryState(['StartDate', 'EndDate', 'MemberName', 'TransactionId', 'OperatorId', 'GameId', 'GameTransactionType', 'PlatformType', 'pageIndex', 'pageSize'])
   const [error, setError] = useState<ErrorState<keyof typeof filters>>({})
 
@@ -113,7 +120,7 @@ const Filters = ({ trigger, getCsv, disableCsv }: { trigger: (obj: object) => vo
           }}
           onValueChange={handleDateChange}
         />
-        <SearchWithCsv onSearch={handleSearch} onCsv={handleCsv} disableCsv={disableCsv} />
+        <SearchWithCsv onSearch={handleSearch} onCsv={handleCsv} disableCsv={disableCsv} searchLoading={searchLoading} />
       </div>
     </>
   )

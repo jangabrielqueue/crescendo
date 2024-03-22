@@ -7,7 +7,7 @@ const Snackbar = () => {
   const { snackbars, activeSnackbars, hideSnackbar } = useSnackbar()
 
   return (
-    <div className='absolute top-2 right-2 flex flex-col gap-2' style={{ zIndex: 100 }} >
+    <div className='fixed bottom-2 right-2 flex flex-col gap-2' style={{ zIndex: 100 }} >
       {snackbars.map((ar, idx) => (
         <Transition
           key={idx}

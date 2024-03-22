@@ -4,7 +4,7 @@ import { Button, TextInput } from '@tremor/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid'
 import useOnMountEffect from '@hooks/useOnMountEffect'
 
-const Filters = ({ mutate }: { mutate: (object: object) => void }) => {
+const Filters = ({ mutate, loading }: { mutate: (object: object) => void, loading: boolean }) => {
   const [filters, setFilters] = useQueryState(['OperatorId', 'CurrencyId', 'DemoAccount', 'MemberId', 'MemberName', 'pageIndex', 'pageSize'])
   const handleSearch = () => {
     const payload = { ...filters }
@@ -55,7 +55,14 @@ const Filters = ({ mutate }: { mutate: (object: object) => void }) => {
         onChange={(val) => setFilters('DemoAccount', String(val))}
         placeholder='Account Type'
       />
-      <Button className='w-24' icon={MagnifyingGlassIcon} onClick={handleSearch}>Search</Button>
+      <Button
+        className='w-24'
+        loading={loading}
+        icon={MagnifyingGlassIcon}
+        onClick={handleSearch}
+      >
+        Search
+      </Button>
     </div>
   )
 }

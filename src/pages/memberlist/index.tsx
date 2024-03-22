@@ -13,7 +13,6 @@ const MemberList = () => {
   const { data, isLoading, mutate } = useMembersApi()
   const navigate = useNavigate()
 
-
   const columns: Array<TableColumns<MemberListModel>> = [
     { headerName: 'Member ID', field: 'memberId' },
     { headerName: 'Operator', field: 'operatorTag' },
@@ -64,16 +63,14 @@ const MemberList = () => {
 
   return (
     <>
-      <Filters mutate={mutate} />
+      <Filters mutate={mutate} loading={isLoading} />
       <Divider />
-      <div className='my-2'>
-        <DataTable
-          columns={columns}
-          loading={isLoading}
-          data={data?.items ?? []}
-        />
-      </div>
-
+      <DataTable
+        tableClassName='my-2'
+        columns={columns}
+        loading={isLoading}
+        data={data?.items ?? []}
+      />
     </>
   )
 }

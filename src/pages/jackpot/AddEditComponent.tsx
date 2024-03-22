@@ -5,7 +5,7 @@ import { XCircleIcon } from '@heroicons/react/16/solid'
 import { Button, Divider, Icon, TextInput } from '@tremor/react'
 import { datetime, isNullOrWhiteSpace } from '@utils/index'
 import { useState } from 'react'
-import { JackpotDataModel, postAddJackpot, postEditJackpot } from './api'
+import { JackpotDataModel, PostAddJackpot, PostEditJackpot } from './api'
 import useSnackbar from '@hooks/useSnackbar'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -56,6 +56,7 @@ const getValueFromText = (filters: Option<Value>[], values: Value[] | undefined)
 
 const AddEditComponent = ({ onCancel, onSearch, detail: pDetail }: AddEditProps) => {
   const [detail] = useState(pDetail)
+  const [isLoading, setIsLoading] = useState(false)
   const isEdit = detail != null && Object.keys(detail).length !== 0
   const { operators, currencies } = useFilters()
   const [postData, setPostData] = useState<Partial<PostData>>({
@@ -137,19 +138,20 @@ const AddEditComponent = ({ onCancel, onSearch, detail: pDetail }: AddEditProps)
   }
 
   const handleSubmit = async () => {
+    setIsLoading(true)
     try {
-      isEdit ? await postEditJackpot(postData) : await postAddJackpot(postData)
+      isEdit ? await PostEditJackpot(postData) : await PostAddJackpot(postData)
       onSearch()
       onCancel()
     } catch (e) {
       showError(e)
     }
+    setIsLoading(false)
   }
 
   return (
     <>
       <div className='flex flex-col gap-4'>
-        <h1 className='text-tremor-title font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong'>{isEdit ? 'Edit' : 'Create'} Jackpot</h1>
         {!isEdit &&
           <>
             <div>
@@ -241,6 +243,7 @@ const AddEditComponent = ({ onCancel, onSearch, detail: pDetail }: AddEditProps)
         <Button
           disabled={!checkIfValid()}
           onClick={handleSubmit}
+          loading={isLoading}
         >
           Submit
         </Button>

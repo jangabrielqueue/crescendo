@@ -3,21 +3,39 @@ import useGameHistoryApi, { GameHistoryModel } from './api'
 import Filters from './components/Filters'
 import { TableColumns } from '@components/DataTable/interface'
 import { convertToGmt, getPagedItemNumber } from '@utils/index'
-import { Button, Dialog, DialogPanel, Divider } from '@tremor/react'
+import { Button, Divider } from '@tremor/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import config from '@utils/env'
 import { useAuth } from '@hooks/useAuth'
+import useModal from '@hooks/useModal'
 
 const iframeurl = `${config.betHistoryUrl}/bethistory/?lang=en-us&tid=`
+
 const GameHistory = () => {
   const { data, isLoading, trigger, getCsv } = useGameHistoryApi()
   const { authToken } = useAuth()
-  const [iframeUrl, setIframeUrl] = useState<string>()
+  const { setModal } = useModal()
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const handleViewResult = (row: GameHistoryModel) => {
-    setIframeUrl(`${iframeurl}${row.gameTransactionId}`)
+    setModal({
+      body: () => (
+        <iframe
+          src={`${iframeurl}${row.gameTransactionId}`}
+          ref={iframeRef}
+          allowFullScreen
+          width='100%'
+          style={{
+            backgroundColor: 'white',
+            border: 'none',
+            minHeight: '40em'
+          }}
+          onLoad={handleLoadIframe}
+        />
+      ),
+      panelClassName: 'max-w-4xl'
+    })
   }
 
   const handleLoadIframe = () => {
@@ -57,29 +75,18 @@ const GameHistory = () => {
 
   return (
     <>
-      <Filters trigger={trigger} getCsv={getCsv} disableCsv={!(data?.items && data?.items.length > 0)} />
+      <Filters
+        trigger={trigger}
+        getCsv={getCsv}
+        disableCsv={!(data?.items && data?.items.length > 0)}
+        searchLoading={isLoading}
+      />
       <Divider />
       <DataTable
         data={data?.items ?? []}
         columns={columns}
         loading={isLoading}
       />
-      <Dialog open={Boolean(iframeUrl)} onClose={() => setIframeUrl(undefined)} unmount>
-        <DialogPanel className='max-w-4xl'>
-          <iframe
-            src={iframeUrl}
-            ref={iframeRef}
-            allowFullScreen
-            width='100%'
-            style={{
-              backgroundColor: 'white',
-              border: 'none',
-              minHeight: '40em'
-            }}
-            onLoad={handleLoadIframe}
-          />
-        </DialogPanel>
-      </Dialog>
     </>
   )
 }

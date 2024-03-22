@@ -29,4 +29,8 @@ body {
   .bg-background {
     @apply bg-tremor-background dark:bg-dark-tremor-background
   }
+
+  .text-context {
+    @apply text-tremor-content dark:text-dark-tremor-content
+  }
 }

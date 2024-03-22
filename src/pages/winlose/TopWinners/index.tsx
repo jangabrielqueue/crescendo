@@ -165,6 +165,7 @@ const TopWinnersTab = () => {
   return (
     <>
       <Filters
+        searchLoading={isLoading}
         disableCsv={hasNoData}
         getCsv={getCsv}
         search={(arg) => {

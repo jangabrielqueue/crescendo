@@ -2,16 +2,16 @@ import { useState } from 'react'
 
 export const useLocalStorage = <T,>(keyName: string, defaultValue?: T): [T, (val: T) => void] => {
 	const [storedValue, setStoredValue] = useState<T>(() => {
+		const value = window.localStorage.getItem(keyName)
 		try {
-			const value = window.localStorage.getItem(keyName)
 			if (value) {
-				return value[0] === '{' && value[value.length - 1] === '}' ? JSON.parse(value) : value
+				return JSON.parse(value)
 			} else {
 				window.localStorage.setItem(keyName, JSON.stringify(defaultValue))
 				return defaultValue
 			}
 		} catch (err) {
-			return defaultValue
+			return value || defaultValue
 		}
 	})
 	const setValue = (newValue: T) => {

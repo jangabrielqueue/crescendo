@@ -3,6 +3,9 @@ import config from './env'
 import { BaseResponse } from './interface'
 import { checkObjectKeys } from '.'
 import { errorMessage } from './api'
+import useSnackbar from '@hooks/useSnackbar'
+import { Middleware } from 'swr'
+import { useCallback } from 'react'
 
 type Res<T> = BaseResponse<T> | T
 
@@ -41,7 +44,6 @@ const getValue = <T>(res: Res<T>, errorMessage?: string) => {
 }
 
 const parseRes = async <T>(res: Response, pErrorMessage?: string) => {
-
   if (res.status === 401 || res.status === 403) {
     window.location.href = `${config.casURL}login?next=${window.location.protocol}//${window.location.host + config.relativeRoot}auth&client=${config.casClientId}&op=${config.casOperator}`
   } else if (res.status === 404) {
@@ -79,7 +81,7 @@ export const domainedFetch = async<T>(url: string, requestConfig: RequestInit, e
   return parsedRes
 }
 
-const createParams = (query: object) => (
+export const createParams = (query: object) => (
   Object.keys(query).reduce((prev: string, curr, idx, arr) => {
     if (checkObjectKeys(query, curr)) {
       const val = query[curr]
@@ -124,4 +126,26 @@ export const fetcherGetApiWithParams = <ResponseValue>({ url, params, errorMessa
   return authorizedFetch<ResponseValue>(`${url}${createParams(params)}`, {
     method: 'GET'
   }, errorMessage)
+}
+
+const checkHasOnError = (onError: unknown) => onError?.toString() === `() => {
+}`
+export const useMiddleware = () => {
+  const { showError } = useSnackbar()
+
+  const middleware: Middleware = useCallback((swrConfig) => (key, fetcher, config) => {
+    const swr = swrConfig(key, fetcher, {
+      keepPreviousData: true,
+      ...config,
+      ...checkHasOnError(config.onError) ? {
+        onError: (e: unknown) => showError(e),
+      } : {
+        onError: config.onError
+      }
+    })
+
+    return swr
+  }, [showError])
+
+  return middleware
 }

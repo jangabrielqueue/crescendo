@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import { Divider } from '@tremor/react'
 import GreyLogo from '../../assets/logo-gray.png'
+import Sidebar from './components/Sidebar'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
 	const [darkmode, setDarkmode] = useState(localStorage.getItem('darkMode') === 'true')
@@ -16,13 +17,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 		setDarkmode((prevMode) => !prevMode)
 	}
 	return (
-		<div className={'relative h-full flex flex-col items-center'}>
-			<Navbar toggle={toggleDarkMode} isDarkmode={darkmode} />
-			<div className='max-w-7xl w-full'>
-				{children}
-
+		<div className={'relative flex'}>
+			<Sidebar />
+			<div className='w-full flex flex-col items-center h-screen overflow-auto'>
+				<Navbar toggle={toggleDarkMode} isDarkmode={darkmode} />
+				<div className='px-2 w-full'>
+					{children}
+				</div>
+				<Divider><div className='flex items-center text-xs'><img className='h-6' src={GreyLogo} alt='Logo' /> ©2023 All rights reserved</div></Divider>
 			</div>
-			<Divider><div className='flex items-center text-xs'><img className='h-6' src={GreyLogo} alt='Logo' /> ©2023 All rights reserved</div></Divider>
 		</div>
 	)
 }

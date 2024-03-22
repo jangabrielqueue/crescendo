@@ -7,7 +7,7 @@ import { datetime } from '@utils/index'
 import { FilterProps } from '../interface'
 import dayjs from 'dayjs'
 
-const Filters = ({ disableCsv, search, getCsv }: FilterProps) => {
+const Filters = ({ disableCsv, search, getCsv, searchLoading }: FilterProps) => {
   const [topWinners, setQuery] = useContext(WinLoseContext)
 
   const handleDateChange = ({ from, to }: { from?: Date, to?: Date }) => {
@@ -74,7 +74,7 @@ const Filters = ({ disableCsv, search, getCsv }: FilterProps) => {
         onValueChange={handleDateChange}
       />
       <div className='col-span-full flex justify-center'>
-        <SearchWithCsv onCsv={handleCsv} onSearch={handleSearch} disableCsv={disableCsv} />
+        <SearchWithCsv onCsv={handleCsv} searchLoading={searchLoading} onSearch={handleSearch} disableCsv={disableCsv} />
       </div>
     </div>
   )

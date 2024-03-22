@@ -1,10 +1,10 @@
 import useOnMountEffect from '@hooks/useOnMountEffect'
-import useJackpotListApi, { JackpotDataModel } from './api'
+import { useJackpotListApi, JackpotDataModel, PutDisableJackpot, PutEnableJackpot } from './api'
 import DataTable from '@components/DataTable'
 import { TableColumns } from '@components/DataTable/interface'
 import PoolTable from './PoolTable'
 import dayjs from 'dayjs'
-import { Button, Dialog, DialogPanel, Divider, Text } from '@tremor/react'
+import { Button, Divider, Text } from '@tremor/react'
 import { twMerge } from 'tailwind-merge'
 import { GetObjectAsCsv, twExclude } from '@utils/index'
 import { useNavigate } from 'react-router-dom'
@@ -12,7 +12,8 @@ import ComplexPagination from '@components/ComplexPagination'
 import { ArrowPathIcon, DocumentIcon } from '@heroicons/react/16/solid'
 import useSnackbar from '@hooks/useSnackbar'
 import AddEditComponent from './AddEditComponent'
-import { useState } from 'react'
+import useModal from '@hooks/useModal'
+import ResetComponent from './ResetComponent'
 
 const styles = {
   buttonGroup: 'flex justify-center border border-color rounded-2xl overflow-hidden col-span-full',
@@ -70,10 +71,11 @@ const exapandedDataColumns: Array<TableColumns<JackpotDataModel>> = [
   }
 ]
 const Jackpot = () => {
-  const [detail, setDetail] = useState<Partial<JackpotDataModel>>()
+  // const [detail, setDetail] = useState<Partial<JackpotDataModel>>()
   const { data, trigger, isMutating } = useJackpotListApi()
   const { showError } = useSnackbar()
   const navigate = useNavigate()
+  const { setModal, closeModal } = useModal()
 
   useOnMountEffect(() => {
     trigger(defaultRequest)
@@ -125,15 +127,56 @@ const Jackpot = () => {
               </Button>
             </div>
             <div className={styles.buttonGroup}>
-              <Button variant='light' className={styles.buttonSibblings} onClick={() => setDetail(row)}>Edit</Button>
-              <Button variant='light' className={styles.buttonSibblings}>Reset</Button>
-              <Button variant='light' className={twMerge(twExclude(styles.buttonSibblings, ['border-r']), isEnabled ? styles.buttonDisable : '')}>{isEnabled ? 'Disable' : 'Enable'}</Button>
+              <Button variant='light' className={styles.buttonSibblings} onClick={() => handleEdit(row)}>Edit</Button>
+              <Button variant='light' className={styles.buttonSibblings} onClick={() => handleResetButton(row.id, row.gameId)}>Reset</Button>
+              <Button
+                variant='light'
+                className={twMerge(twExclude(styles.buttonSibblings, ['border-r']), isEnabled ? styles.buttonDisable : '')}
+                onClick={() => handleDisableEnableButton(row.id, isEnabled)}
+              >
+                {isEnabled ? 'Disable' : 'Enable'}
+              </Button>
             </div>
           </div>
         )
       }
     },
   ]
+
+  const handleEdit = (row: JackpotDataModel) => {
+    setModal({
+      title: 'Edit Jackpot',
+      body: () => (
+        <AddEditComponent
+          onCancel={closeModal}
+          detail={row}
+          onSearch={() => trigger(defaultRequest)}
+        />
+      )
+    })
+  }
+
+  const handleResetButton = (id: string, gameId: string) => {
+    setModal({
+      body: () => (
+        <ResetComponent
+          id={id}
+          gameId={gameId}
+          onSearch={() => trigger(defaultRequest)}
+        />
+      ),
+      title: `Reset ${id}`
+    })
+  }
+
+  const handleDisableEnableButton = async (id: string, isEnabled: boolean) => {
+    try {
+      isEnabled ? await PutDisableJackpot({ id }) : await PutEnableJackpot({ id })
+      trigger(defaultRequest)
+    } catch (e) {
+      showError(e)
+    }
+  }
 
   const handlePageChange = (newCursor: number) => {
     trigger({
@@ -170,6 +213,19 @@ const Jackpot = () => {
     }
   }
 
+  const handleAdd = () => {
+    setModal({
+      title: 'Add Jackpot',
+      body: () => (
+        <AddEditComponent
+          detail={{}}
+          onCancel={closeModal}
+          onSearch={() => trigger({ pageIndex: 1, pageSize: 50 })}
+        />
+      )
+    })
+  }
+
   return (
     <>
       <div className='my-6'>
@@ -188,13 +244,14 @@ const Jackpot = () => {
               className={styles.refreshButton}
               onClick={handleRefresh}
               icon={ArrowPathIcon}
+              loading={isMutating}
             >
               Refresh
             </Button>
             <Button
               variant='light'
               className={styles.addButton}
-              onClick={() => setDetail({})}
+              onClick={handleAdd}
             >
               Add
             </Button>
@@ -227,11 +284,6 @@ const Jackpot = () => {
           }}
         />
       </div>
-      <Dialog static open={detail != null} onClose={() => setDetail(undefined)}>
-        <DialogPanel>
-          <AddEditComponent onCancel={() => setDetail(undefined)} detail={detail} onSearch={() => trigger({ pageIndex: 1, pageSize: 50 })} />
-        </DialogPanel>
-      </Dialog>
     </>
   )
 }

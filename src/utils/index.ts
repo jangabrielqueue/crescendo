@@ -60,28 +60,23 @@ interface ObjectAsCsvOptions<T extends object> {
 
 export function GetObjectAsCsv<T extends object>({ object, fileName, ...rest }: ObjectAsCsvOptions<T>) {
   const parser = new Parser(rest)
-  try {
-    const csv = parser.parse(object)
+  const csv = parser.parse(object)
 
-    /*
-    * Make CSV downloadable
-    */
-    const downloadLink = document.createElement('a')
-    const blob = new Blob(['\ufeff', csv])
-    const url = URL.createObjectURL(blob)
-    downloadLink.href = url
-    downloadLink.download = `${fileName}.csv`
+  /*
+  * Make CSV downloadable
+  */
+  const downloadLink = document.createElement('a')
+  const blob = new Blob(['\ufeff', csv])
+  const url = URL.createObjectURL(blob)
+  downloadLink.href = url
+  downloadLink.download = `${fileName}.csv`
 
-    /*
-     * Actually download CSV
-     */
-    document.body.appendChild(downloadLink)
-    downloadLink.click()
-    document.body.removeChild(downloadLink)
-  } catch (e) {
-    console.log(e)
-  }
-
+  /*
+   * Actually download CSV
+   */
+  document.body.appendChild(downloadLink)
+  downloadLink.click()
+  document.body.removeChild(downloadLink)
 }
 
 export function getPagedItemNumber<T,>(referenceItem: PagedData<T> | undefined, localIndex: number) {

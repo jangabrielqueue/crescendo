@@ -1,25 +1,26 @@
 import useOperatorApi, { ByMerchantModel } from './api'
 import Filters from './Filters'
-import { Button, Dialog, DialogPanel, Divider, Icon, Text } from '@tremor/react'
+import { Button, Divider, Icon, Text } from '@tremor/react'
 import DataTable from '@components/DataTable'
 import { TableColumns } from '@components/DataTable/interface'
 import { GetObjectAsCsv } from '@utils/index'
 import useSnackbar from '@hooks/useSnackbar'
 import ExpandedDetail from '../components/ExpandedDetail'
-import { DetailDialog, DetailModel, comonDetailColumn, detailCsv, detailFormats, endpointPerFormat } from '../components/common'
+import { DetailDialog, DetailModel, ExcludedCurrencyFormats, comonDetailColumn, detailCsv, detailFormats, endpointPerFormat } from '../components/common'
 import { CurrencyDollarIcon, PuzzlePieceIcon, UsersIcon } from '@heroicons/react/16/solid'
 import { useContext, useState } from 'react'
 import dayjs from 'dayjs'
-import { WinLoseContext } from '../context'
+import { FiltersModel, WinLoseContext } from '../context'
+import useModal from '@hooks/useModal'
 
 const OperatorTab = () => {
   const { data, mutate, isLoading } = useOperatorApi()
   const { showError } = useSnackbar()
   const [detailFormat, setDetailFormat] = useState<Record<number, (typeof detailFormats[number])[]>>({})
-  const [detailDialog, setDetailDialog] = useState<DetailDialog>()
   const [filter] = useContext(WinLoseContext)
   const [prevFilter, setPrevFilter] = useState(filter)
   const hasNoData = data.length === 0
+  const { setModal } = useModal()
 
   const columns: Array<TableColumns<ByMerchantModel>> = [
     { headerName: 'Operator', field: 'operatorTag' },
@@ -78,12 +79,20 @@ const OperatorTab = () => {
           return (
             <div className='flex gap-1 justify-center'>
               <Button variant='light' tooltip='Members' size='xs'
-                onClick={() => setDetailDialog({
-                  format: 'Members',
-                  game: row.game,
-                  gameId: row.gameId,
-                  operatorId: row.operatorId || 0,
-                  operatorTag: row.operatorTag
+                onClick={() => setModal({
+                  body: () => (
+                    <DetailsDialog
+                      detailDialog={{
+                        format: 'Members',
+                        game: row.game,
+                        gameId: row.gameId,
+                        operatorId: row.operatorId || 0,
+                        operatorTag: row.operatorTag
+                      }}
+                      prevFilter={prevFilter}
+                    />
+                  ),
+                  panelClassName: 'max-w-none w-fit'
                 })}
               >
                 <Icon variant={'light'} icon={UsersIcon} />
@@ -103,13 +112,21 @@ const OperatorTab = () => {
       {
         headerName: 'View Details', field: 'action', headerClassName: 'text-center',
         renderCell({ row }) {
-          const handleDialog = (format: typeof detailFormats[number]) => {
-            setDetailDialog({
-              format,
-              currency: row.currency,
-              currencyId: row.currencyId,
-              operatorId: row.operatorId || 0,
-              operatorTag: row.operatorTag
+          const handleDialog = (format: ExcludedCurrencyFormats) => {
+            setModal({
+              body: () => (
+                <DetailsDialog
+                  detailDialog={{
+                    format,
+                    currency: row.currency,
+                    currencyId: row.currencyId,
+                    operatorId: row.operatorId || 0,
+                    operatorTag: row.operatorTag
+                  }}
+                  prevFilter={prevFilter}
+                />
+              ),
+              panelClassName: 'max-w-none w-fit'
             })
           }
           return (
@@ -164,7 +181,7 @@ const OperatorTab = () => {
 
   return (
     <>
-      <Filters disableCsv={hasNoData} search={handleSearch} getCsv={getCsv} />
+      <Filters searchLoading={isLoading} disableCsv={hasNoData} search={handleSearch} getCsv={getCsv} />
       <Divider />
       <DataTable
         data={data}
@@ -209,38 +226,50 @@ const OperatorTab = () => {
           },
         }}
       />
-      <Dialog open={Boolean(detailDialog)} onClose={() => setDetailDialog(undefined)} unmount>
-        <DialogPanel className='max-w-none w-fit'>
-          {detailDialog && (
-            <ExpandedDetail
-              isDialog
-              url={endpointPerFormat[detailDialog.format]}
-              columns={detailColumns[detailDialog.format].filter((value) => typeof value === 'object' && value.field !== 'action')}
-              getText={(params) => (
-                <>
-                  <Text className='text-xl'>{detailDialog.operatorTag} {detailDialog.format}  For {detailDialog.currency || detailDialog.game}</Text>
-                  <Text className='font-light text-lg'>({dayjs(params.startDate).format('MMMM-DD-YYYY')} - {dayjs(params.endDate).format('MMMM-DD-YYYY')})</Text>
-                </>
-              )}
-              csvFields={detailCsv(detailDialog.format)}
-              getFileName={(params) => `${detailDialog.operatorTag}-${detailDialog.format}-For-${detailDialog.currency || detailDialog.game}(${dayjs(params.startDate).format('YYYYMMDD')}-${dayjs(params.endDate).format('YYYYMMDD')})`}
-              expander={() => setDetailDialog(undefined)}
-              params={{
-                detailFormatted: true,
-              }}
-              filterParams={{
-                ...prevFilter,
-                formatFilterType: prevFilter.formatFilterType,
-                gameId: detailDialog.gameId || prevFilter.gameId || 0,
-                currencyId: detailDialog.currencyId || prevFilter.currencyId || 0,
-                operatorId: detailDialog.operatorId || prevFilter.operatorId || 0
-              }}
-            />
-          )}
-        </DialogPanel>
-      </Dialog>
     </>
   )
 }
 
+const DetailsDialog = ({ detailDialog, prevFilter }: { detailDialog: DetailDialog, prevFilter: FiltersModel }) => {
+  const { closeModal } = useModal()
+
+  const detailColumns: Record<ExcludedCurrencyFormats, Array<TableColumns<DetailModel>>> = {
+    Games: [
+      { headerName: 'Game', field: 'game' },
+      { headerName: 'Member Count', field: 'noOfPlayer' },
+      ...comonDetailColumn
+    ],
+    Members: [
+      { headerName: 'Member Name', field: 'memberName' },
+      ...comonDetailColumn
+    ]
+  }
+
+  return (
+    <ExpandedDetail
+      isDialog
+      url={endpointPerFormat[detailDialog.format]}
+      columns={detailColumns[detailDialog.format]}
+      getText={(params) => (
+        <>
+          <Text className='text-xl'>{detailDialog.operatorTag} {detailDialog.format}  For {detailDialog.currency || detailDialog.game}</Text>
+          <Text className='font-light text-lg'>({dayjs(params.startDate).format('MMMM-DD-YYYY')} - {dayjs(params.endDate).format('MMMM-DD-YYYY')})</Text>
+        </>
+      )}
+      csvFields={detailCsv(detailDialog.format)}
+      getFileName={(params) => `${detailDialog.operatorTag}-${detailDialog.format}-For-${detailDialog.currency || detailDialog.game}(${dayjs(params.startDate).format('YYYYMMDD')}-${dayjs(params.endDate).format('YYYYMMDD')})`}
+      expander={closeModal}
+      params={{
+        detailFormatted: true,
+      }}
+      filterParams={{
+        ...prevFilter,
+        formatFilterType: prevFilter.formatFilterType,
+        gameId: detailDialog.gameId || prevFilter.gameId || 0,
+        currencyId: detailDialog.currencyId || prevFilter.currencyId || 0,
+        operatorId: detailDialog.operatorId || prevFilter.operatorId || 0
+      }}
+    />
+  )
+}
 export default OperatorTab

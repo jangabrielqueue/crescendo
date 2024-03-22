@@ -3,8 +3,8 @@ import { createContext } from 'react'
 
 const queries = ['operatorId', 'gameId', 'currencyId', 'memberName', 'startDate', 'endDate', 'top', 'IsDemoAccount', 'isDemo', 'isFreeRounds', 'formatFilterType'] as const
 
-type Filters = { [key in typeof queries[number]]?: string }
-type ContextValue = [Filters, (name: typeof queries[number], val: string | undefined) => void]
+export type FiltersModel = { [key in typeof queries[number]]?: string }
+type ContextValue = [FiltersModel, (name: typeof queries[number], val: string | undefined) => void]
 
 export const WinLoseContext = createContext<ContextValue>([{}, () => { }])
 

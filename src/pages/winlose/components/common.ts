@@ -26,7 +26,7 @@ export interface DetailModel {
 }
 
 export const detailFormats = ['Games', 'Members', 'Currency'] as const
-
+export type ExcludedCurrencyFormats = Exclude<typeof detailFormats[number], 'Currency'>
 export const comonDetailColumn: Array<TableColumns<DetailModel>> = [
   { headerName: 'Total TXN', field: 'noOfTransaction' },
   { headerName: '# of Spin', field: 'noOfSpin' },
@@ -71,7 +71,7 @@ export const endpointPerFormat: Record<typeof detailFormats[number], string> = {
 }
 
 export interface DetailDialog {
-  format: typeof detailFormats[number]
+  format: Exclude<typeof detailFormats[number], 'Currency'>
   gameId?: number
   game?: string
   currencyId?: number
