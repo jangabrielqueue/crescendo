@@ -4,7 +4,7 @@ import { ArrowDownTrayIcon, XMarkIcon } from '@heroicons/react/16/solid'
 import useSnackbar from '@hooks/useSnackbar'
 import { Icon, Text } from '@tremor/react'
 import { CsvFields, GetObjectAsCsv } from '@utils/index'
-import { fetcherGetApiWithParams } from '@utils/newMiddleware'
+import { fetcherGetApiWithParams } from '@utils/middleware'
 import { useState } from 'react'
 import useSWRImmutable from 'swr/immutable'
 

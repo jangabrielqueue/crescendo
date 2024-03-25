@@ -1,5 +1,5 @@
 import { errorMessage } from '@utils/api'
-import { mutateGetFetcherWithParams } from '@utils/newMiddleware'
+import { mutateGetFetcherWithParams } from '@utils/middleware'
 import useSWRMutation from 'swr/mutation'
 
 export interface PlatformListModel {

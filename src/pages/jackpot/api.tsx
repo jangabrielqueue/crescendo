@@ -3,7 +3,7 @@ import useQueryState from '@hooks/useQueryState'
 import { errorMessage } from '@utils/api'
 import { isNullOrWhiteSpace } from '@utils/index'
 import { ComplexPagedData } from '@utils/interface'
-import { authorizedFetch, createParams, mutateGetFetcherWithParams } from '@utils/newMiddleware'
+import { authorizedFetch, createParams, mutateGetFetcherWithParams } from '@utils/middleware'
 import { useNavigate } from 'react-router-dom'
 import useSWRMutation from 'swr/mutation'
 

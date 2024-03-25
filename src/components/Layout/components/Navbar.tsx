@@ -25,8 +25,8 @@ const Navbar = ({ toggle, isDarkmode }: NavbarProps) => {
 			<div className={styles.upperNav}>
 				<div className={styles.upperNavContent}>
 					<Logo />
-					{/* <DomainSelect /> */}
 					<div className='flex gap-4 items-center'>
+						{/* <DomainSelect /> */}
 						<SwitchIcon toggle={toggle} checked={isDarkmode} />
 						<AccountDropdown />
 					</div>

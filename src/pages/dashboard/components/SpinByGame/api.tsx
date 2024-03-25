@@ -1,7 +1,7 @@
 import { DashboardContext } from '@pages/dashboard/context'
 import { GamePerformanceModel } from '@pages/dashboard/interface'
 import { errorMessage } from '@utils/api'
-import { fetcherGetApiWithParams } from '@utils/newMiddleware'
+import { fetcherGetApiWithParams } from '@utils/middleware'
 import { useContext } from 'react'
 import useSWRImmutable from 'swr/immutable'
 

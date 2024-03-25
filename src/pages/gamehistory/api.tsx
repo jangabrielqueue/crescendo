@@ -2,7 +2,7 @@ import useSnackbar from '@hooks/useSnackbar'
 import { errorMessage } from '@utils/api'
 import { GetObjectAsCsv } from '@utils/index'
 import { PagedData } from '@utils/interface'
-import { mutateGetFetcherWithParams } from '@utils/newMiddleware'
+import { mutateGetFetcherWithParams } from '@utils/middleware'
 import useSWRMutation from 'swr/mutation'
 
 export interface GameHistoryModel {

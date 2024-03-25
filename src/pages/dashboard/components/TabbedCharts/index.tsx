@@ -3,6 +3,7 @@ import UniqueUserChart from './UniqueUserChart'
 import WinLoseChart from './WinLose'
 import SpinGame from './SpinGame'
 import { useDasboardDailyUniqueUsers, useDasboardSpin, useDasboardWinLose } from './api'
+import { useState } from 'react'
 
 const TabLabel = ({ value, label }: { value: string | number | undefined, label: string }) => (
   <div className='flex flex-col justify-center items-center'>
@@ -13,9 +14,10 @@ const TabbedCharts = () => {
   const { data: dailyuniqueusers } = useDasboardDailyUniqueUsers()
   const { data: winlose } = useDasboardWinLose()
   const { data: spin } = useDasboardSpin()
+  const [tabIndex, setTabIndex] = useState(0)
   return (
     <Card className='py-2'>
-      <TabGroup>
+      <TabGroup index={tabIndex} onIndexChange={(idx) => setTabIndex(idx)}>
         <TabList className="justify-around">
           <Tab>
             <TabLabel value={dailyuniqueusers?.total} label='Unique Users' />
@@ -28,14 +30,14 @@ const TabbedCharts = () => {
           </Tab>
         </TabList>
         <TabPanels>
-          <TabPanel>
-            <UniqueUserChart />
+          <TabPanel >
+            {tabIndex === 0 && <UniqueUserChart />}
           </TabPanel>
           <TabPanel>
-            <WinLoseChart />
+            {tabIndex === 1 && <WinLoseChart />}
           </TabPanel>
           <TabPanel>
-            <SpinGame />
+            {tabIndex === 2 && <SpinGame />}
           </TabPanel>
         </TabPanels>
       </TabGroup>

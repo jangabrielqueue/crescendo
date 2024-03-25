@@ -16,7 +16,7 @@ const PieChart = ({ variant, title, data: pData, valueFormatter, cardClassName, 
 		<Card className={twMerge('w-[100%]', cardClassName)}>
 			<Title>{title}</Title>
 			<Grid numItems={3} className='m-4 my-6 gap-12'>
-				<Col numColSpan={2}>
+				<Col numColSpan={2} className='aspect-square'>
 					<DonutChart
 						data={data}
 						category='value'

@@ -13,7 +13,6 @@ import useLocale from './trans'
 import { DomainProvider } from '@context/DomainContext'
 import SnackbarProvider from '@context/SnackbarContext'
 import WelcomePage from './pages'
-import { useMiddleware } from '@utils/middleware'
 import { SWRConfig } from 'swr'
 import GameList from '@pages/gamelist'
 import GameConfigure from '@pages/gamelist/configure'
@@ -27,6 +26,7 @@ import JackpotContributions from '@pages/jackpot/contributions'
 import JackpotWinners from '@pages/jackpot/winners'
 import ModalProvider from '@context/ModalContext'
 import GameServices from '@pages/gameservices'
+import { useMiddleware } from '@utils/middleware'
 
 
 const router = createBrowserRouter([

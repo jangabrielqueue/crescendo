@@ -20,6 +20,7 @@ const config = {
 	casOperator: import.meta.env.VITE_APP_CAS_OPERATOR,
 	casUseNextAction: import.meta.env.VITE_APP_CAS_USE_NEXTACTION,
 	authKey: import.meta.env.VITE_APP_AUTH_KEY,
+	cresAuthKey: import.meta.env.VITE_APP_CRES_AUTH_KEY
 }
 
 export default config

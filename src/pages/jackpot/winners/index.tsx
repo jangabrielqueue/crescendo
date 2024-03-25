@@ -9,7 +9,7 @@ import useSnackbar from '@hooks/useSnackbar'
 import DataTable from '@components/DataTable'
 import { TableColumns } from '@components/DataTable/interface'
 import { Link } from 'react-router-dom'
-import { createParams } from '@utils/newMiddleware'
+import { createParams } from '@utils/middleware'
 import useModal from '@hooks/useModal'
 import RejectModal from './RejectModal'
 

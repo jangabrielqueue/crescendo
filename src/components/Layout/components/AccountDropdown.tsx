@@ -36,10 +36,10 @@ const AccountDropdown = () => {
 					className={styles.dropdownContainer}
 				>
 					<div className={styles.avatar}>
-						{decodedAuth?.username && decodedAuth.username[0].toUpperCase()}
+						{(decodedAuth?.username && decodedAuth.username[0].toUpperCase()) || (decodedAuth?.operator && decodedAuth?.operator[0].toUpperCase())}
 					</div>
 					<div className={styles.userContainer}>
-						<span className='text-sm'>{decodedAuth?.username}</span>
+						<span className='text-sm'>{decodedAuth?.username || decodedAuth?.operator}</span>
 						<span className='text-xs'>{decodedAuth?.rolename}</span>
 					</div>
 				</div>

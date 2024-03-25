@@ -6,16 +6,16 @@
 
 ### First-Time Run
 ```
-npm install
-npm run compile
-npm start
+pnpm install
+pnpm run compile
+pnpm start
 ```
 
 ###  Visualize Rollup Bundled File Size
 ```
-npm run analyze
+pnpm run analyze
 ```
-(must install serve with ```npm i -g serve```)
+(must install serve with ```pnpm i -g serve```)
 
 
 ## Packages
@@ -31,6 +31,10 @@ npm run analyze
 
 ### React JVectormap
 - [Github](https://github.com/kadoshms/react-jvectormap)
+
+### useSWR
+- [Docs](https://swr.vercel.app/)
+- [Github](https://github.com/vercel/swr)
 
 ## Useful VSCode Extensions
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)

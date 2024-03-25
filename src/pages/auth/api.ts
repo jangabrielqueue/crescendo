@@ -1,7 +1,8 @@
 import { useAuth } from '@hooks/useAuth'
 import config from '@utils/env'
-import { domainedFetch } from '@utils/newMiddleware'
+import { domainedFetch } from '@utils/middleware'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+
 
 async function getAuthentication(ticket: string) {
 	const url = `cas/callback?ticket=${ticket}`

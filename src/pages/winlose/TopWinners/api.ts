@@ -1,5 +1,5 @@
 import { errorMessage } from '@utils/api'
-import { mutateGetFetcherWithParams } from '@utils/newMiddleware'
+import { mutateGetFetcherWithParams } from '@utils/middleware'
 import useSWRMutation from 'swr/mutation'
 
 export type ItemFormat = 'Game' | 'Daily' | 'Weekly' | 'Monthly';
@@ -28,7 +28,7 @@ export interface TopWinnersModel {
   noOfTransaction: number | string
   userId: number
   noOfSpin: number
-  avgBet: number| string
+  avgBet: number | string
   totalBet: number | string
   totalNetWin: number | string
   companyWLPercentage: number | string

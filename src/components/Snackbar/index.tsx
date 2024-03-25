@@ -20,11 +20,11 @@ const Snackbar = () => {
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 translate-y-1"
         >
-          <div className='bg-white rounded-lg [&_p]:mt-0 cursor-pointer' onClick={() => hideSnackbar(ar.idx)}>
+          <div className=' rounded-lg [&_p]:mt-0 cursor-pointer' onClick={() => hideSnackbar(ar.idx)}>
             {/* <Callout title={ar.title || ''} color={ar.color || 'red'} className='p-1 px-3 max-w-56'>
               {ar.message}
             </Callout> */}
-            <Card className='py-2 text-tremor-content-strong dark:text-dark-tremor-content-strong flex justify-center gap-2'>
+            <Card className='py-2 dark:text-tremor-content-strong text-dark-tremor-content-strong dark:bg-tremor-background bg-dark-tremor-background flex justify-center gap-2'>
               <span className='font-bold'>{ar.title}</span> {ar.message}
             </Card>
           </div>

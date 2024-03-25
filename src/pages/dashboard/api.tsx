@@ -3,7 +3,7 @@ import { DashboardContext } from './context'
 import { errorMessage } from '@utils/api'
 import useSWRImmutable from 'swr/immutable'
 import { CardFilterValue } from './interface'
-import { fetcherGetApiWithParams } from '@utils/newMiddleware'
+import { fetcherGetApiWithParams } from '@utils/middleware'
 
 function localReceiveCardFilter(data: CardFilterValue | undefined): string[] {
 	if (data == null) return []

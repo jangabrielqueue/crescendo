@@ -8,7 +8,7 @@ import { ArrowDownTrayIcon, XMarkIcon } from '@heroicons/react/16/solid'
 import { GetObjectAsCsv } from '@utils/index'
 import dayjs from 'dayjs'
 import useSnackbar from '@hooks/useSnackbar'
-import { fetcherGetApiWithParams } from '@utils/newMiddleware'
+import { fetcherGetApiWithParams } from '@utils/middleware'
 
 interface LeaderboardModel {
   no: number

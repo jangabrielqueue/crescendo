@@ -1,5 +1,5 @@
 import { errorMessage } from '@utils/api'
-import { authorizedFetch, fetcherGetApiWithParams } from '@utils/newMiddleware'
+import { authorizedFetch, fetcherGetApiWithParams } from '@utils/middleware'
 import useSWRImmutable from 'swr/immutable'
 
 interface ResourcesModel {

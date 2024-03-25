@@ -1,6 +1,6 @@
 import { useStateChangeEffect } from '@hooks/useStateChangeEffect'
 import { Button, Divider, NumberInput, TextInput } from '@tremor/react'
-import { fetcherGetApiWithParams } from '@utils/newMiddleware'
+import { fetcherGetApiWithParams } from '@utils/middleware'
 import { useState } from 'react'
 import useSWRImmutable from 'swr/immutable'
 import { PutResetJackpot } from './api'

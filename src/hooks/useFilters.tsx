@@ -1,7 +1,7 @@
 import { Option } from '@components/Form/interface'
 import useDashboardFilters from '@pages/dashboard/api'
 import { errorMessage } from '@utils/api'
-import { fetcherGetApiWithParams } from '@utils/newMiddleware'
+import { fetcherGetApiWithParams } from '@utils/middleware'
 import useSWRImmutable from 'swr/immutable'
 
 type SelectList = Option<string>[]
